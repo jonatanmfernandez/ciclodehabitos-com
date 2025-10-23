@@ -6,6 +6,8 @@ import Image from "next/image"
 import { useState } from "react"
 import { Mail, MessageSquare, Send, CheckCircle2 } from "lucide-react"
 import Link from "next/link"
+import { MobileNav } from "@/components/mobile-nav"
+import { Chatbot } from "@/components/chatbot"
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -18,7 +20,6 @@ export default function ContactPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    // Aquí iría la lógica para enviar el formulario
     console.log("Form submitted:", formData)
     setSubmitted(true)
     setTimeout(() => {
@@ -60,6 +61,7 @@ export default function ContactPage() {
                 Contact
               </Link>
             </div>
+            <MobileNav />
           </div>
         </nav>
       </header>
@@ -244,6 +246,8 @@ export default function ContactPage() {
           </div>
         </div>
       </footer>
+
+      <Chatbot />
     </div>
   )
 }

@@ -4,6 +4,8 @@ import { Search, Star, ExternalLink, Sparkles, Zap, Brain, ImageIcon, MessageSqu
 import Link from "next/link"
 import Image from "next/image"
 import { useState } from "react"
+import { MobileNav } from "@/components/mobile-nav"
+import { Chatbot } from "@/components/chatbot"
 
 export default function DirectorioIA() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -156,6 +158,7 @@ export default function DirectorioIA() {
                 Contact
               </Link>
             </div>
+            <MobileNav />
           </div>
         </nav>
       </header>
@@ -277,6 +280,8 @@ export default function DirectorioIA() {
           </div>
         </div>
       </footer>
+
+      <Chatbot />
     </div>
   )
 }

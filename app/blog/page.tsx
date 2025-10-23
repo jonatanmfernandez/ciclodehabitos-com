@@ -3,6 +3,8 @@
 import { ArrowRight, BookOpen, Clock } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import { MobileNav } from "@/components/mobile-nav"
+import { Chatbot } from "@/components/chatbot"
 
 export default function BlogPage() {
   const articles = [
@@ -88,6 +90,7 @@ export default function BlogPage() {
                 Contact
               </Link>
             </div>
+            <MobileNav />
           </div>
         </nav>
       </header>
@@ -161,6 +164,8 @@ export default function BlogPage() {
           </div>
         </div>
       </footer>
+
+      <Chatbot />
     </div>
   )
 }

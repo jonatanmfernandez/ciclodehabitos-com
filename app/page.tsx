@@ -1,9 +1,11 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { ArrowRight, CheckCircle2, Users, TrendingUp, Target, X, Clock, Brain, Gift, AlertCircle } from "lucide-react"
+import { ArrowRight, CheckCircle2, Users, TrendingUp, Target, X, Clock, Gift, AlertCircle, Brain } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import { MobileNav } from "@/components/mobile-nav"
+import { Chatbot } from "@/components/chatbot"
 
 export default function CicloHabitosComplete() {
   const [userCount, setUserCount] = useState(2847)
@@ -87,6 +89,7 @@ export default function CicloHabitosComplete() {
                 Contact
               </Link>
             </div>
+            <MobileNav />
           </div>
         </nav>
       </header>
@@ -488,6 +491,8 @@ export default function CicloHabitosComplete() {
           </div>
         </div>
       </div>
+
+      <Chatbot />
     </div>
   )
 }

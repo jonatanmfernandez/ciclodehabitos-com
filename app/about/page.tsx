@@ -3,6 +3,8 @@
 import { Target, Users, TrendingUp, Heart, BookOpen, Lightbulb } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import { MobileNav } from "@/components/mobile-nav"
+import { Chatbot } from "@/components/chatbot"
 
 export default function AboutPage() {
   return (
@@ -31,6 +33,7 @@ export default function AboutPage() {
                 Contact
               </Link>
             </div>
+            <MobileNav />
           </div>
         </nav>
       </header>
@@ -166,6 +169,8 @@ export default function AboutPage() {
           </div>
         </div>
       </footer>
+
+      <Chatbot />
     </div>
   )
 }
