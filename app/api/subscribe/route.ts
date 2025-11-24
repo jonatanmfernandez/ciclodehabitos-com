@@ -2,9 +2,6 @@ import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { supabase } from '@/lib/supabase';
 import { Resend } from 'resend';
-import WelcomeEmail from '@/components/emails/welcome-email';
-
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 const EmailSchema = z.object({
     email: z.string().email({ message: "Por favor ingresa un correo electrónico válido" }),
@@ -45,6 +42,8 @@ export async function POST(request: Request) {
 
         // Send Welcome Email via Resend
         try {
+            const resend = new Resend(process.env.RESEND_API_KEY || '');
+            const { default: WelcomeEmail } = await import('@/components/emails/welcome-email');
             await resend.emails.send({
                 from: 'Ciclo de Hábitos <onboarding@resend.dev>', // Update this with your verified domain later
                 to: email,
