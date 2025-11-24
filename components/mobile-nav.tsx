@@ -13,9 +13,9 @@ export function MobileNav() {
   const navLinks = [
     { href: "/", label: "Inicio" },
     { href: "/blog", label: "Blog" },
-    { href: "/directorio-ia", label: "Directorio IA" },
-    { href: "/about", label: "About" },
-    { href: "/contact", label: "Contact" },
+    { href: "#newsletter", label: "Newsletter" },
+    { href: "/about", label: "Sobre mí" },
+    { href: "/contact", label: "Contacto" },
   ]
 
   return (
