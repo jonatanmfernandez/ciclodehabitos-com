@@ -5,6 +5,7 @@ import { CheckCircle2 } from "lucide-react"
 import { toast } from "sonner"
 
 export function NewsletterForm() {
+    const [isSuccess, setIsSuccess] = useState(false)
     const [email, setEmail] = useState("")
     const [isLoading, setIsLoading] = useState(false)
 
@@ -19,23 +20,58 @@ export function NewsletterForm() {
                 body: JSON.stringify({ email }),
             })
 
-            const data = await response.json()
+            let data;
+            try {
+                const text = await response.text()
+                try {
+                    data = JSON.parse(text)
+                } catch {
+                    console.error("Failed to parse JSON response:", text)
+                    throw new Error("El servidor devolvió una respuesta inválida (HTML en lugar de JSON).")
+                }
+            } catch (err) {
+                console.error("Network or parsing error:", err)
+                throw new Error("Error de conexión con el servidor.")
+            }
 
             if (!response.ok) {
-                throw new Error(data.error || "Algo salió mal")
+                // Safe access to error message
+                const errorMessage = data?.error || "Error desconocido del servidor";
+                console.error("Subscription failed:", errorMessage, data);
+                throw new Error(errorMessage)
             }
 
             toast.success("¡Suscripción exitosa!", {
-                description: "Gracias por unirte. Pronto recibirás noticias nuestras."
+                description: data.message || "Gracias por unirte."
             })
+            setIsSuccess(true)
             setEmail("")
         } catch (error) {
+            console.error("Frontend Subscription Error:", error)
             toast.error("Error al suscribirse", {
                 description: error instanceof Error ? error.message : "Inténtalo de nuevo más tarde"
             })
         } finally {
             setIsLoading(false)
         }
+    }
+
+    if (isSuccess) {
+        return (
+            <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-8 text-center max-w-md mx-auto mb-12">
+                <CheckCircle2 className="w-12 h-12 text-green-500 mx-auto mb-4" />
+                <h3 className="text-xl font-bold text-white mb-2">¡Suscripción Confirmada!</h3>
+                <p className="text-slate-300">
+                    Gracias por unirte a Ciclo de Hábitos. Revisa tu bandeja de entrada para confirmar tu correo.
+                </p>
+                <button
+                    onClick={() => setIsSuccess(false)}
+                    className="mt-6 text-sm text-blue-400 hover:text-blue-300 underline"
+                >
+                    Suscribir otro correo
+                </button>
+            </div>
+        )
     }
 
     return (

@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { Brain, Send } from "lucide-react"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
@@ -9,21 +8,17 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { useChat } from "@ai-sdk/react"
-import { DefaultChatTransport } from "ai"
 
 export function Chatbot() {
   const [open, setOpen] = useState(false)
-
-  const { messages, sendMessage, status } = useChat({
-    transport: new DefaultChatTransport({ api: "/api/chat" }),
+  const { messages, append, isLoading, input, handleInputChange, handleSubmit: _handleSubmit } = useChat({
+    api: "/api/chat",
   })
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const customSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const input = (e.target as any).message.value
     if (input.trim()) {
-      sendMessage({ text: input })
-      ;(e.target as any).message.value = ""
+      append({ role: "user", content: input })
     }
   }
 
@@ -68,25 +63,17 @@ export function Chatbot() {
             {messages.map((message) => (
               <div key={message.id} className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}>
                 <div
-                  className={`max-w-[80%] rounded-2xl px-4 py-3 ${
-                    message.role === "user" ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-900"
-                  }`}
+                  className={`max-w-[80%] rounded-2xl px-4 py-3 ${message.role === "user" ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-900"
+                    }`}
                 >
-                  {message.parts.map((part, index) => {
-                    if (part.type === "text") {
-                      return (
-                        <p key={index} className="text-sm leading-relaxed whitespace-pre-wrap">
-                          {part.text}
-                        </p>
-                      )
-                    }
-                    return null
-                  })}
+                  <p className="text-sm leading-relaxed whitespace-pre-wrap">
+                    {message.content}
+                  </p>
                 </div>
               </div>
             ))}
 
-            {status === "in_progress" && (
+            {isLoading && (
               <div className="flex justify-start">
                 <div className="bg-slate-100 rounded-2xl px-4 py-3">
                   <div className="flex gap-1">
@@ -110,17 +97,18 @@ export function Chatbot() {
         </ScrollArea>
 
         <div className="p-4 border-t">
-          <form onSubmit={handleSubmit} className="flex gap-2">
+          <form onSubmit={customSubmit} className="flex gap-2">
             <Input
-              name="message"
+              value={input}
+              onChange={handleInputChange}
               placeholder="Escribe tu pregunta..."
-              disabled={status === "in_progress"}
+              disabled={isLoading}
               className="flex-1"
             />
             <Button
               type="submit"
               size="icon"
-              disabled={status === "in_progress"}
+              disabled={isLoading}
               className="bg-blue-600 hover:bg-blue-700"
             >
               <Send className="w-4 h-4" />

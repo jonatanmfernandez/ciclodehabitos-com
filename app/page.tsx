@@ -147,7 +147,6 @@ export default function Home() {
       </section>
 
       <Footer />
-
       <Chatbot />
     </div>
   )

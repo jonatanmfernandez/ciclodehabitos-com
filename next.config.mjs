@@ -7,8 +7,8 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    unoptimized: true,
   },
+  outputFileTracingRoot: "c:\\Users\\ferna\\2025\\Proyectos\\ciclodehabitos.com",
 }
 
 export default nextConfig
