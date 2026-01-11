@@ -8,7 +8,8 @@ const nextConfig = {
   },
   images: {
   },
-  outputFileTracingRoot: "c:\\Users\\ferna\\2025\\Proyectos\\ciclodehabitos.com",
+  outputFileTracingRoot: process.env.VERCEL ? undefined : process.cwd(),
+  allowedDevOrigins: ["192.168.1.37"],
 }
 
 export default nextConfig
