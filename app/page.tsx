@@ -1,4 +1,4 @@
-import { ArrowRight, BookOpen, Mail, Clock } from "lucide-react"
+import { ArrowRight, BookOpen, Mail, Clock, ShoppingBag } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { Chatbot } from "@/components/chatbot"

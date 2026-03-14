@@ -7,6 +7,12 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+    ],
   },
   outputFileTracingRoot: process.env.VERCEL ? undefined : process.cwd(),
   allowedDevOrigins: ["192.168.1.37"],

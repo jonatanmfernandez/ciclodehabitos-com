@@ -1,0 +1,82 @@
+[
+    {
+        "id": "amazon-1",
+        "asin": "0735211299",
+        "name": "Hábitos Atómicos - James Clear",
+        "price": 29.99,
+        "image": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=1000&auto=format&fit=crop",
+        "category": "Best Seller",
+        "rating": 5,
+        "description": "Un método sencillo y comprobado para desarrollar buenos hábitos y eliminar los malos."
+    },
+    {
+        "id": "amazon-2",
+        "asin": "0062457713",
+        "name": "El Sutil Arte de que te Importe un Carajo",
+        "price": 24.50,
+        "image": "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=1000&auto=format&fit=crop",
+        "category": "Desarrollo",
+        "rating": 5,
+        "description": "Un enfoque disruptivo para vivir una buena vida."
+    },
+    {
+        "id": "amazon-3",
+        "asin": "1524763136",
+        "name": "Deep Work - Cal Newport",
+        "price": 27.99,
+        "image": "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=1000&auto=format&fit=crop",
+        "category": "Productividad",
+        "rating": 5,
+        "description": "Reglas para el éxito enfocado en un mundo distraído."
+    },
+    {
+        "id": "amazon-4",
+        "asin": "B08KRSLL4V",
+        "name": "Mat de Yoga Premium Antideslizante",
+        "price": 45.00,
+        "image": "https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?q=80&w=1000&auto=format&fit=crop",
+        "category": "Yoga",
+        "rating": 5,
+        "description": "Mat de yoga ecológico de 6mm con excelente agarre."
+    },
+    {
+        "id": "amazon-5",
+        "asin": "B07QFKV8Y3",
+        "name": "Bloques de Yoga de Corcho Natural",
+        "price": 18.00,
+        "image": "https://images.unsplash.com/photo-1599447421416-3414500d18a5?q=80&w=1000&auto=format&fit=crop",
+        "category": "Accesorios",
+        "rating": 4,
+        "description": "Set de 2 bloques de corcho 100% natural para yoga."
+    },
+    {
+        "id": "amazon-6",
+        "asin": "B08R3QWXYZ",
+        "name": "Set de Aceites Esenciales Aromáticos",
+        "price": 15.50,
+        "image": "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?q=80&w=1000&auto=format&fit=crop",
+        "category": "Bienestar",
+        "rating": 5,
+        "description": "6 aceites esenciales puros para aromaterapia y meditación."
+    },
+    {
+        "id": "amazon-7",
+        "asin": "B07VWXP9KL",
+        "name": "Cojín de Meditación Zafu",
+        "price": 39.00,
+        "image": "https://images.unsplash.com/photo-1545208393-2160291ba89e?q=80&w=1000&auto=format&fit=crop",
+        "category": "Meditación",
+        "rating": 4,
+        "description": "Cojín tradicional de meditación relleno de cáscara de trigo sarraceno."
+    },
+    {
+        "id": "amazon-8",
+        "asin": "0143127748",
+        "name": "El Poder del Ahora - Eckhart Tolle",
+        "price": 22.00,
+        "image": "https://images.unsplash.com/photo-1541963463532-d68292c34b19?q=80&w=1000&auto=format&fit=crop",
+        "category": "Mindfulness",
+        "rating": 5,
+        "description": "Una guía para la iluminación espiritual."
+    }
+]

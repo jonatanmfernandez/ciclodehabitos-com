@@ -28,11 +28,26 @@ const components = {
     <blockquote className="border-l-4 border-blue-600 bg-blue-50 pl-6 pr-4 py-4 my-8 italic text-lg text-slate-800 rounded-r-lg" {...props} />
   ),
   ul: (props: any) => (
-    <ul className="space-y-3 my-6 ml-6" {...props} />
+    <ul className="space-y-3 my-6 ml-6 list-none [&>li]:relative [&>li]:before:content-['→'] [&>li]:before:absolute [&>li]:before:left-[-1.5rem] [&>li]:before:text-blue-600 [&>li]:before:font-bold" {...props} />
+  ),
+  ol: (props: any) => (
+    <ol className="space-y-3 my-6 ml-6 pl-4 list-decimal" {...props} />
   ),
   li: (props: any) => (
-    <li className="text-lg text-slate-700 leading-relaxed pl-2 relative before:content-['→'] before:absolute before:left-[-1.5rem] before:text-blue-600 before:font-bold" {...props} />
+    <li className="text-lg text-slate-700 leading-relaxed pl-2" {...props} />
   ),
+  table: (props: any) => (
+    <div className="overflow-x-auto my-10 flex justify-center">
+      <div className="shadow-md border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden w-full md:w-auto">
+        <table className="w-full text-center border-collapse" {...props} />
+      </div>
+    </div>
+  ),
+  thead: (props: any) => <thead className="bg-slate-100 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700" {...props} />,
+  tbody: (props: any) => <tbody className="bg-white dark:bg-slate-900 divide-y divide-slate-100 dark:divide-slate-800" {...props} />,
+  tr: (props: any) => <tr className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors" {...props} />,
+  th: (props: any) => <th className="px-6 py-4 text-sm font-bold text-slate-900 dark:text-slate-100 border-r border-slate-200 dark:border-slate-700 last:border-r-0 text-center" {...props} />,
+  td: (props: any) => <td className="px-6 py-4 text-sm text-slate-700 dark:text-slate-300 border-r border-slate-200 dark:border-slate-700 last:border-r-0 text-center" {...props} />,
   strong: (props: any) => (
     <strong className="font-bold text-slate-900" {...props} />
   ),
