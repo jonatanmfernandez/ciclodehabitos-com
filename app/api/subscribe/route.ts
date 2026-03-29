@@ -32,7 +32,7 @@ export async function POST(request: Request) {
         // Insert into Supabase
         const { error: supabaseError } = await supabaseAdmin
             .from('subscribers')
-            .insert([{ email }]);
+            .insert([{ email, created_at: new Date().toISOString() }]);
 
         if (supabaseError) {
             console.error('Supabase error:', supabaseError);
