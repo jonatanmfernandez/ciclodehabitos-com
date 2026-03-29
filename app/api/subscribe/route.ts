@@ -8,15 +8,7 @@ const EmailSchema = z.object({
 });
 
 export async function POST(request: Request) {
-    console.log("Subscription request received");
-
-    // Debug environment variables (masked)
-    const hasServiceKey = !!process.env.SUPABASE_SERVICE_ROLE_KEY;
-    const hasUrl = !!process.env.NEXT_PUBLIC_SUPABASE_URL;
-    console.log(`Env Check - URL: ${hasUrl}, ServiceKey: ${hasServiceKey}`);
-
-    if (!hasServiceKey || !hasUrl) {
-        console.error("Missing Supabase environment variables");
+    if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
         return NextResponse.json(
             { error: "Configuration error on server" },
             { status: 500 }
@@ -35,13 +27,12 @@ export async function POST(request: Request) {
             );
         }
 
-        const { email } = result.data;
-        console.log(`Attempting to subscribe: ${email}`);
+        const email = result.data.email.toLowerCase();
 
         // Insert into Supabase
         const { error: supabaseError } = await supabaseAdmin
             .from('subscribers')
-            .insert([{ email, created_at: new Date().toISOString() }]);
+            .insert([{ email }]);
 
         if (supabaseError) {
             console.error('Supabase error:', supabaseError);
@@ -55,14 +46,11 @@ export async function POST(request: Request) {
             throw new Error(`DB Error: ${supabaseError.message}`);
         }
 
-        console.log("Successfully inserted into Supabase");
-
         // Send Welcome Email via Resend
         try {
             const resendApiKey = process.env.RESEND_API_KEY;
             if (resendApiKey) {
                 const resend = new Resend(resendApiKey);
-                // We need to valid import path. Assuming component exists
                 const { default: WelcomeEmail } = await import('@/components/emails/welcome-email');
 
                 await resend.emails.send({
@@ -71,9 +59,6 @@ export async function POST(request: Request) {
                     subject: 'Bienvenido a Ciclo de Hábitos',
                     react: WelcomeEmail({ email }),
                 });
-                console.log("Welcome email sent");
-            } else {
-                console.log("RESEND_API_KEY missing, skipping email.");
             }
         } catch (emailError) {
             console.error('Error sending email:', emailError);
