@@ -29,6 +29,7 @@ export function Chatbot() {
           <div className="relative group">
             <Button
               size="icon"
+              aria-label="Abrir asistente de hábitos"
               className="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-4 shadow-2xl transition-all hover:scale-110 h-14 w-14"
             >
               <Brain className="w-6 h-6" />
@@ -108,6 +109,7 @@ export function Chatbot() {
             <Button
               type="submit"
               size="icon"
+              aria-label="Enviar mensaje"
               disabled={isLoading}
               className="bg-blue-600 hover:bg-blue-700"
             >

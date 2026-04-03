@@ -79,6 +79,7 @@ export function NewsletterForm() {
             <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto mb-12" onSubmit={handleSubscribe}>
                 <input
                     type="email"
+                    aria-label="Correo electrónico"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     disabled={isLoading}

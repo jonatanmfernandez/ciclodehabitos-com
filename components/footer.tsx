@@ -17,7 +17,7 @@ export function Footer() {
                             />
                             <span className="font-bold text-xl text-slate-800">Ciclo de Hábitos</span>
                         </Link>
-                        <p className="text-slate-500 max-w-xs leading-relaxed">
+                        <p className="text-slate-600 max-w-xs leading-relaxed">
                             Ayudándote a construir una vida mejor, un hábito a la vez. Ciencia del comportamiento, estrategias reales y comunidad.
                         </p>
                     </div>
@@ -43,7 +43,7 @@ export function Footer() {
                     </div>
                 </div>
 
-                <div className="border-t border-slate-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-400">
+                <div className="border-t border-slate-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500">
                     <p>© {new Date().getFullYear()} Ciclo de Hábitos. Todos los derechos reservados.</p>
                     <div className="flex gap-6">
                         <Link href="#" className="hover:text-slate-600 transition-colors">Privacidad</Link>
