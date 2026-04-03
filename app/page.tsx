@@ -1,11 +1,13 @@
 import { ArrowRight, BookOpen, Mail, Clock, ShoppingBag } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
-import { Chatbot } from "@/components/chatbot"
+import dynamic from "next/dynamic"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { getSortedPostsData } from "@/lib/blog"
 import { NewsletterForm } from "@/components/newsletter-form"
+
+const Chatbot = dynamic(() => import("@/components/chatbot").then((mod) => mod.Chatbot), { ssr: false })
 
 export default function Home() {
   const featuredArticles = getSortedPostsData().slice(0, 3)
