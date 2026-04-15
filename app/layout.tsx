@@ -87,12 +87,11 @@ export default function RootLayout({
     <html lang="es">
       <head>
         {/* Google AdSense */}
-        <Script
+        <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1971351790174483"
           crossOrigin="anonymous"
-          strategy="lazyOnload"
-        />
+        ></script>
         <Script
           strategy="lazyOnload"
           src="https://www.googletagmanager.com/gtag/js?id=G-8N2P1GKWGM"
