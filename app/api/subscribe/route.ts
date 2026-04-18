@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import { supabaseAdmin } from '@/lib/supabase';
 import { Resend } from 'resend';
 
 const EmailSchema = z.object({
@@ -8,13 +7,6 @@ const EmailSchema = z.object({
 });
 
 export async function POST(request: Request) {
-    if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
-        return NextResponse.json(
-            { error: "Configuration error on server" },
-            { status: 500 }
-        );
-    }
-
     try {
         const body = await request.json();
 
@@ -29,22 +21,8 @@ export async function POST(request: Request) {
 
         const email = result.data.email.toLowerCase();
 
-        // Insert into Supabase
-        const { error: supabaseError } = await supabaseAdmin
-            .from('subscribers')
-            .insert([{ email, created_at: new Date().toISOString() }]);
-
-        if (supabaseError) {
-            console.error('Supabase error:', supabaseError);
-            if (supabaseError.code === '23505') {
-                // Duplicate
-                return NextResponse.json(
-                    { message: "¡Ya estás suscrito! Gracias por tu interés." },
-                    { status: 200 } // Treat as success for UX
-                );
-            }
-            throw new Error(`DB Error: ${supabaseError.message}`);
-        }
+        // Aquí más adelante conectaremos tu nuevo proveedor de mailing
+        // (ConvertKit, Beehiiv, MailerLite, o Resend Audiences)
 
         // Send Welcome Email via Resend
         try {
@@ -54,7 +32,7 @@ export async function POST(request: Request) {
                 const { default: WelcomeEmail } = await import('@/components/emails/welcome-email');
 
                 await resend.emails.send({
-                    from: 'Ciclo de Hábitos <onboarding@resend.dev>', // Update this with your verified domain later
+                    from: 'Ciclo de Hábitos <onboarding@resend.dev>', // Modificar al dominio verificado luego
                     to: email,
                     subject: 'Bienvenido a Ciclo de Hábitos',
                     react: WelcomeEmail({ email }),
@@ -62,11 +40,11 @@ export async function POST(request: Request) {
             }
         } catch (emailError) {
             console.error('Error sending email:', emailError);
-            // We don't fail the request if email fails, but we log it
+            // No fallamos la petición si el email falla
         }
 
         return NextResponse.json(
-            { message: "¡Suscripción exitosa! Revisa tu correo pronto." },
+            { message: "¡Suscripción confirmada temporalmente!" },
             { status: 200 }
         );
     } catch (error) {
