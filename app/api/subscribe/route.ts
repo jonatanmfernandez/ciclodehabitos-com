@@ -21,14 +21,27 @@ export async function POST(request: Request) {
 
         const email = result.data.email.toLowerCase();
 
-        // Aquí más adelante conectaremos tu nuevo proveedor de mailing
-        // (ConvertKit, Beehiiv, MailerLite, o Resend Audiences)
-
-        // Send Welcome Email via Resend
+        // Añadir a la audiencia y enviar Welcome Email via Resend
         try {
             const resendApiKey = process.env.RESEND_API_KEY;
             if (resendApiKey) {
                 const resend = new Resend(resendApiKey);
+                
+                // 1. Añadir el contacto a Resend Audiences
+                const audienceId = process.env.RESEND_AUDIENCE_ID;
+                if (audienceId) {
+                    const result = await resend.contacts.create({
+                        email: email,
+                        unsubscribed: false,
+                        audienceId: audienceId,
+                    });
+                    
+                    if (result.error) {
+                        console.error('Error guardando contacto en resend:', result.error);
+                    }
+                }
+
+                // 2. Enviar correo de bienvenida
                 const { default: WelcomeEmail } = await import('@/components/emails/welcome-email');
 
                 await resend.emails.send({
@@ -44,7 +57,7 @@ export async function POST(request: Request) {
         }
 
         return NextResponse.json(
-            { message: "¡Suscripción confirmada temporalmente!" },
+            { message: "¡Suscripción exitosa! Revisa tu correo pronto." },
             { status: 200 }
         );
     } catch (error) {
