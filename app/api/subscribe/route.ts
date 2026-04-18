@@ -45,7 +45,7 @@ export async function POST(request: Request) {
                 const { default: WelcomeEmail } = await import('@/components/emails/welcome-email');
 
                 await resend.emails.send({
-                    from: 'Ciclo de Hábitos <onboarding@resend.dev>', // Modificar al dominio verificado luego
+                    from: 'Ciclo de Hábitos <hola@ciclodehabitos.com>', // Puedes cambiar "hola" por "contacto" o lo que prefieras
                     to: email,
                     subject: 'Bienvenido a Ciclo de Hábitos',
                     react: WelcomeEmail({ email }),
