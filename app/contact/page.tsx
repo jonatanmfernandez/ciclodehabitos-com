@@ -8,6 +8,7 @@ import { Mail, MessageSquare, Send, CheckCircle2 } from "lucide-react"
 import Link from "next/link"
 import { MobileNav } from "@/components/mobile-nav"
 import { Chatbot } from "@/components/chatbot"
+import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 
 export default function ContactPage() {
@@ -38,34 +39,7 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100">
-      <header className="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-40">
-        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex justify-between items-center">
-            <Link href="/" className="flex items-center gap-3">
-              <Image src="/images/logo.png" alt="Ciclo de Hábitos Logo" width={40} height={40} className="w-10 h-10" />
-              <span className="font-bold text-xl text-slate-800">Ciclo de Hábitos</span>
-            </Link>
-            <div className="hidden md:flex gap-8 items-center">
-              <Link href="/" className="text-slate-600 hover:text-blue-600 transition">
-                Inicio
-              </Link>
-              <Link href="/blog" className="text-slate-600 hover:text-blue-600 transition">
-                Blog
-              </Link>
-              <Link href="/directorio-ia" className="text-slate-600 hover:text-blue-600 transition">
-                Directorio IA
-              </Link>
-              <Link href="/about" className="text-slate-600 hover:text-blue-600 transition">
-                About
-              </Link>
-              <Link href="/contact" className="text-blue-600 font-semibold">
-                Contact
-              </Link>
-            </div>
-            <MobileNav />
-          </div>
-        </nav>
-      </header>
+      <Header />
 
       <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-16">
