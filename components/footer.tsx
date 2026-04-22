@@ -37,17 +37,19 @@ export function Footer() {
                         <ul className="space-y-2 text-slate-600">
                             <li><Link href="/about" className="hover:text-blue-600 transition-colors">Sobre mí</Link></li>
                             <li><Link href="/contact" className="hover:text-blue-600 transition-colors">Contacto</Link></li>
-                            <li><a href="#" className="hover:text-blue-600 transition-colors">Twitter / X</a></li>
-                            <li><a href="#" className="hover:text-blue-600 transition-colors">Instagram</a></li>
+                            <li><a href="#" aria-label="Visitar Twitter / X" className="hover:text-blue-600 transition-colors">Twitter / X</a></li>
+                            <li><a href="#" aria-label="Visitar Instagram" className="hover:text-blue-600 transition-colors">Instagram</a></li>
                         </ul>
                     </div>
                 </div>
 
                 <div className="border-t border-slate-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500">
                     <p>© {new Date().getFullYear()} Ciclo de Hábitos. Todos los derechos reservados.</p>
-                    <div className="flex gap-6">
-                        <Link href="#" className="hover:text-slate-600 transition-colors">Privacidad</Link>
-                        <Link href="#" className="hover:text-slate-600 transition-colors">Términos</Link>
+                    <div className="flex flex-wrap justify-center gap-6">
+                        <Link href="/privacidad" className="hover:text-slate-600 transition-colors">Privacidad</Link>
+                        <Link href="/cookies" className="hover:text-slate-600 transition-colors">Cookies</Link>
+                        <Link href="/terminos" className="hover:text-slate-600 transition-colors">Términos</Link>
+                        <Link href="/accesibilidad" className="hover:text-slate-600 transition-colors">Accesibilidad</Link>
                     </div>
                 </div>
             </div>

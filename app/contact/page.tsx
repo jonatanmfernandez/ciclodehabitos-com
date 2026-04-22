@@ -8,6 +8,7 @@ import { Mail, MessageSquare, Send, CheckCircle2 } from "lucide-react"
 import Link from "next/link"
 import { MobileNav } from "@/components/mobile-nav"
 import { Chatbot } from "@/components/chatbot"
+import { Footer } from "@/components/footer"
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -239,13 +240,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <footer className="bg-slate-900 text-white py-12 mt-20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center text-slate-400 text-sm">
-            <p>© 2025 Ciclo de Hábitos. Todos los derechos reservados.</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
 
       <Chatbot />
     </div>
