@@ -6,6 +6,8 @@ import Image from "next/image"
 import { useState } from "react"
 import { MobileNav } from "@/components/mobile-nav"
 import { Chatbot } from "@/components/chatbot"
+import { Header } from "@/components/header"
+import { Footer } from "@/components/footer"
 
 export default function DirectorioIA() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -134,34 +136,7 @@ export default function DirectorioIA() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-slate-100">
-      <header className="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-40">
-        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex justify-between items-center">
-            <Link href="/" className="flex items-center gap-3">
-              <Image src="/images/logo.png" alt="Ciclo de Hábitos Logo" width={40} height={40} className="w-10 h-10" />
-              <span className="font-bold text-xl text-slate-800">Ciclo de Hábitos</span>
-            </Link>
-            <div className="hidden md:flex gap-8 items-center">
-              <Link href="/" className="text-slate-600 hover:text-blue-600 transition">
-                Inicio
-              </Link>
-              <Link href="/blog" className="text-slate-600 hover:text-blue-600 transition">
-                Blog
-              </Link>
-              <Link href="/directorio-ia" className="text-blue-600 font-semibold">
-                Directorio IA
-              </Link>
-              <Link href="/about" className="text-slate-600 hover:text-blue-600 transition">
-                About
-              </Link>
-              <Link href="/contact" className="text-slate-600 hover:text-blue-600 transition">
-                Contact
-              </Link>
-            </div>
-            <MobileNav />
-          </div>
-        </nav>
-      </header>
+      <Header />
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-12">
@@ -273,13 +248,7 @@ export default function DirectorioIA() {
         </div>
       </section>
 
-      <footer className="bg-slate-900 text-white py-12 mt-20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center text-slate-400 text-sm">
-            <p>© 2025 Ciclo de Hábitos. Todos los derechos reservados.</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
 
       <Chatbot />
     </div>

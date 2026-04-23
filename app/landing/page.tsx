@@ -6,6 +6,8 @@ import Link from "next/link"
 import Image from "next/image"
 import { MobileNav } from "@/components/mobile-nav"
 import { Chatbot } from "@/components/chatbot"
+import { Header } from "@/components/header"
+import { Footer } from "@/components/footer"
 
 export default function LandingPage() {
     const [userCount, setUserCount] = useState(2847)
@@ -65,34 +67,7 @@ export default function LandingPage() {
                 </div>
             )}
 
-            <header className="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-40">
-                <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                    <div className="flex justify-between items-center">
-                        <Link href="/" className="flex items-center gap-3">
-                            <Image src="/images/logo.png" alt="Ciclo de Hábitos Logo" width={40} height={40} className="w-10 h-10" />
-                            <span className="font-bold text-xl text-slate-800">Ciclo de Hábitos</span>
-                        </Link>
-                        <div className="hidden md:flex gap-8 items-center">
-                            <Link href="/" className="text-slate-600 hover:text-blue-600 transition">
-                                Inicio
-                            </Link>
-                            <Link href="/blog" className="text-slate-600 hover:text-blue-600 transition">
-                                Blog
-                            </Link>
-                            <Link href="/directorio-ia" className="text-slate-600 hover:text-blue-600 transition">
-                                Directorio IA
-                            </Link>
-                            <Link href="/about" className="text-slate-600 hover:text-blue-600 transition">
-                                About
-                            </Link>
-                            <Link href="/contact" className="text-slate-600 hover:text-blue-600 transition">
-                                Contact
-                            </Link>
-                        </div>
-                        <MobileNav />
-                    </div>
-                </nav>
-            </header>
+            <Header />
 
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 md:pt-20 pb-16">
                 <div
@@ -416,27 +391,7 @@ export default function LandingPage() {
                 </div>
             </section>
 
-            <footer className="bg-slate-900 text-white py-12">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="grid grid-cols-2 md:grid-cols-5 gap-6 text-center mb-8">
-                        {[
-                            `✓ +${userCount.toLocaleString()} vidas transformadas`,
-                            "✓ Contenido basado en ciencia",
-                            "✓ Métodos probados en la práctica",
-                            "✓ 100% Gratis para empezar",
-                            "✓ Sin spam, sin trucos",
-                        ].map((item, idx) => (
-                            <div key={idx} className="text-slate-300 text-sm">
-                                {item}
-                            </div>
-                        ))}
-                    </div>
-
-                    <div className="text-center text-slate-400 text-sm border-t border-slate-800 pt-8">
-                        <p>© 2025 Ciclo de Hábitos. Todos los derechos reservados.</p>
-                    </div>
-                </div>
-            </footer>
+            <Footer />
 
             {showExitPopup && (
                 <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
