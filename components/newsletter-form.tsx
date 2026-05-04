@@ -3,8 +3,13 @@
 import { useState } from "react"
 import { CheckCircle2 } from "lucide-react"
 import { toast } from "sonner"
+import { cn } from "@/lib/utils"
 
-export function NewsletterForm() {
+interface NewsletterFormProps {
+    variant?: "default" | "editorial"
+}
+
+export function NewsletterForm({ variant = "default" }: NewsletterFormProps) {
     const [isSuccess, setIsSuccess] = useState(false)
     const [email, setEmail] = useState("")
     const [isLoading, setIsLoading] = useState(false)
@@ -35,7 +40,6 @@ export function NewsletterForm() {
             }
 
             if (!response.ok) {
-                // Safe access to error message
                 const errorMessage = data?.error || "Error desconocido del servidor";
                 console.error("Subscription failed:", errorMessage, data);
                 throw new Error(errorMessage)
@@ -57,6 +61,24 @@ export function NewsletterForm() {
     }
 
     if (isSuccess) {
+        if (variant === "editorial") {
+            return (
+                <div className="bg-green-500/10 border border-green-500/20 p-8 text-center max-w-md mx-auto">
+                    <CheckCircle2 className="w-8 h-8 text-green-500 mx-auto mb-4" />
+                    <h3 className="font-playfair text-xl font-bold text-paper mb-2">¡Suscripción Confirmada!</h3>
+                    <p className="text-[15px] text-paper/50">
+                        Gracias por unirte a Ciclo de Hábitos.
+                    </p>
+                    <button
+                        onClick={() => setIsSuccess(false)}
+                        className="mt-6 font-mono text-[11px] text-warm hover:text-[#dfc085] tracking-[0.1em] uppercase border-b border-warm/30 pb-1"
+                    >
+                        Suscribir otro correo
+                    </button>
+                </div>
+            )
+        }
+
         return (
             <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-8 text-center max-w-md mx-auto mb-12">
                 <CheckCircle2 className="w-12 h-12 text-green-500 mx-auto mb-4" />
@@ -71,6 +93,29 @@ export function NewsletterForm() {
                     Suscribir otro correo
                 </button>
             </div>
+        )
+    }
+
+    if (variant === "editorial") {
+        return (
+            <form className="flex flex-col sm:flex-row gap-0 w-full" onSubmit={handleSubscribe}>
+                <input
+                    type="email"
+                    aria-label="Correo electrónico"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={isLoading}
+                    placeholder="tu@email.com"
+                    className="flex-1 bg-white/5 border border-white/10 sm:border-r-0 text-paper font-serif text-[15px] px-5 py-4 outline-none placeholder:text-paper/25 disabled:opacity-50"
+                />
+                <button
+                    type="submit"
+                    disabled={isLoading}
+                    className="bg-warm text-ink border-none font-mono text-[12px] font-medium tracking-[0.1em] uppercase px-7 py-4 cursor-pointer hover:bg-[#dfc085] transition-colors whitespace-nowrap disabled:opacity-50"
+                >
+                    {isLoading ? "Suscribiendo..." : "Suscribirme →"}
+                </button>
+            </form>
         )
     }
 
