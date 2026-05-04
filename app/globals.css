@@ -76,20 +76,7 @@
 
 @theme inline {
   --font-sans: 'Geist', 'Geist Fallback';
-  --font-mono: var(--font-jetbrains-mono), 'Geist Mono Fallback';
-  --font-playfair: var(--font-playfair);
-  --font-serif: var(--font-source-serif);
-  
-  --color-ink: #12100e;
-  --color-paper: #f4efe6;
-  --color-warm: #c8a96e;
-  --color-warm-dark: #a8893e;
-  --color-accent-red: #8b3a2a;
-  --color-muted-text: #7a7068;
-  --color-light-bg: #e6ddd0;
-  --color-neuro: #3d2566;
-  --color-surface: #faf7f2;
-
+  --font-mono: 'Geist Mono', 'Geist Mono Fallback';
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -140,4 +127,3 @@
     @apply bg-background text-foreground;
   }
 }
-
