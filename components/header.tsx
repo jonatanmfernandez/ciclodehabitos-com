@@ -1,10 +1,10 @@
 import Link from "next/link"
 import Image from "next/image"
 import { MobileNav } from "@/components/mobile-nav"
-
+import { ThemeToggle } from "@/components/theme-toggle"
 export function Header() {
     return (
-        <header className="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-40">
+        <header className="bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 sticky top-0 z-40">
             <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                 <div className="flex justify-between items-center">
                     <Link href="/" className="flex items-center gap-3 group">
@@ -13,33 +13,36 @@ export function Header() {
                             alt="Ciclo de Hábitos Logo"
                             width={40}
                             height={40}
-                            className="w-10 h-10 transition-transform group-hover:scale-110"
+                            className="w-10 h-10 transition-transform group-hover:scale-110 dark:invert dark:mix-blend-screen"
                         />
-                        <span className="font-bold text-xl text-slate-800 tracking-tight">Ciclo de Hábitos</span>
+                        <span className="font-bold text-xl text-slate-800 dark:text-white tracking-tight">Ciclo de Hábitos</span>
                     </Link>
 
                     <div className="hidden md:flex gap-8 items-center">
-                        <Link href="/" className="text-slate-600 hover:text-blue-600 transition font-medium hover:bg-slate-50 px-3 py-2 rounded-lg">
+                        <Link href="/" className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition font-medium hover:bg-slate-50 dark:hover:bg-slate-800 px-3 py-2 rounded-lg">
                             Inicio
                         </Link>
-                        <Link href="/blog" className="text-slate-600 hover:text-blue-600 transition font-medium hover:bg-slate-50 px-3 py-2 rounded-lg">
+                        <Link href="/blog" className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition font-medium hover:bg-slate-50 dark:hover:bg-slate-800 px-3 py-2 rounded-lg">
                             Blog
                         </Link>
-                        <Link href="/directorio-ia" className="text-slate-600 hover:text-blue-600 transition font-medium hover:bg-slate-50 px-3 py-2 rounded-lg">
+                        <Link href="/directorio-ia" className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition font-medium hover:bg-slate-50 dark:hover:bg-slate-800 px-3 py-2 rounded-lg">
                             Directorio IA
                         </Link>
-                        <Link href="/#newsletter" className="text-slate-600 hover:text-blue-600 transition font-medium hover:bg-slate-50 px-3 py-2 rounded-lg">
+                        <Link href="/#newsletter" className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition font-medium hover:bg-slate-50 dark:hover:bg-slate-800 px-3 py-2 rounded-lg">
                             Newsletter
                         </Link>
-                        <Link href="/about" className="text-slate-600 hover:text-blue-600 transition font-medium hover:bg-slate-50 px-3 py-2 rounded-lg">
+                        <Link href="/about" className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition font-medium hover:bg-slate-50 dark:hover:bg-slate-800 px-3 py-2 rounded-lg">
                             Sobre mí
                         </Link>
-                        <Link href="/contact" className="text-slate-600 hover:text-blue-600 transition font-medium hover:bg-slate-50 px-3 py-2 rounded-lg">
+                        <Link href="/contact" className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition font-medium hover:bg-slate-50 dark:hover:bg-slate-800 px-3 py-2 rounded-lg">
                             Contacto
                         </Link>
                     </div>
 
-                    <MobileNav />
+                    <div className="flex items-center gap-2">
+                        <ThemeToggle />
+                        <MobileNav />
+                    </div>
                 </div>
             </nav>
         </header>

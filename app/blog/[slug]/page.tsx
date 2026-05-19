@@ -16,25 +16,25 @@ export async function generateStaticParams() {
 // Custom MDX components for better styling
 const components = {
   h2: (props: any) => (
-    <h2 className="text-3xl font-bold text-slate-900 mt-12 mb-6 leading-tight" {...props} />
+    <h2 className="text-3xl font-bold text-slate-900 dark:text-white mt-12 mb-6 leading-tight" {...props} />
   ),
   h3: (props: any) => (
-    <h3 className="text-2xl font-bold text-slate-800 mt-10 mb-4 leading-snug" {...props} />
+    <h3 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-4 leading-snug" {...props} />
   ),
   p: (props: any) => (
-    <p className="text-lg text-slate-700 leading-relaxed mb-6" {...props} />
+    <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed mb-6" {...props} />
   ),
   blockquote: (props: any) => (
-    <blockquote className="border-l-4 border-blue-600 bg-blue-50 pl-6 pr-4 py-4 my-8 italic text-lg text-slate-800 rounded-r-lg" {...props} />
+    <blockquote className="border-l-4 border-blue-600 bg-blue-50 dark:bg-blue-900/30 pl-6 pr-4 py-4 my-8 italic text-lg text-slate-800 dark:text-slate-200 rounded-r-lg" {...props} />
   ),
   ul: (props: any) => (
     <ul className="space-y-3 my-6 ml-6 list-none [&>li]:relative [&>li]:before:content-['→'] [&>li]:before:absolute [&>li]:before:left-[-1.5rem] [&>li]:before:text-blue-600 [&>li]:before:font-bold" {...props} />
   ),
   ol: (props: any) => (
-    <ol className="space-y-3 my-6 ml-6 pl-4 list-decimal" {...props} />
+    <ol className="space-y-3 my-6 ml-6 pl-4 list-decimal text-slate-700 dark:text-slate-300" {...props} />
   ),
   li: (props: any) => (
-    <li className="text-lg text-slate-700 leading-relaxed pl-2" {...props} />
+    <li className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed pl-2" {...props} />
   ),
   table: (props: any) => (
     <div className="overflow-x-auto my-10 flex justify-center">
@@ -49,7 +49,7 @@ const components = {
   th: (props: any) => <th className="px-6 py-4 text-sm font-bold text-slate-900 dark:text-slate-100 border-r border-slate-200 dark:border-slate-700 last:border-r-0 text-center" {...props} />,
   td: (props: any) => <td className="px-6 py-4 text-sm text-slate-700 dark:text-slate-300 border-r border-slate-200 dark:border-slate-700 last:border-r-0 text-center" {...props} />,
   strong: (props: any) => (
-    <strong className="font-bold text-slate-900" {...props} />
+    <strong className="font-bold text-slate-900 dark:text-white" {...props} />
   ),
   a: (props: any) => (
     <a className="text-blue-600 hover:text-blue-700 underline font-medium" {...props} />
@@ -61,24 +61,24 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
   const post = getPostData(slug);
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-background">
       <Header />
 
       <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
-        <Link href="/blog" className="inline-flex items-center text-slate-500 hover:text-blue-600 mb-8 transition group">
+        <Link href="/blog" className="inline-flex items-center text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 mb-8 transition group">
           <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
           Volver al blog
         </Link>
 
         <div className="mb-12">
-          <span className="inline-block py-2 px-4 rounded-full bg-blue-100 text-blue-700 text-sm font-bold mb-6 uppercase tracking-wide">
+          <span className="inline-block py-2 px-4 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 text-sm font-bold mb-6 uppercase tracking-wide">
             {post.category}
           </span>
-          <h1 className="text-4xl md:text-6xl font-bold text-slate-900 mb-8 leading-tight tracking-tight">
+          <h1 className="text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-8 leading-tight tracking-tight">
             {post.title}
           </h1>
 
-          <div className="flex flex-wrap gap-6 text-slate-500 text-base border-b border-slate-200 pb-8 mb-12">
+          <div className="flex flex-wrap gap-6 text-slate-500 dark:text-slate-400 text-base border-b border-slate-200 dark:border-slate-800 pb-8 mb-12">
             <div className="flex items-center gap-2">
               <User className="w-5 h-5" />
               <span className="font-medium">{post.author}</span>
@@ -107,14 +107,14 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
           </div>
         )}
 
-        <div className="prose prose-lg max-w-none">
+        <div className="prose dark:prose-invert prose-lg max-w-none">
           <MDXRemote source={post.content} components={components} />
         </div>
 
         {/* Share Section */}
-        <div className="mt-16 pt-8 border-t border-slate-200">
+        <div className="mt-16 pt-8 border-t border-slate-200 dark:border-slate-800">
           <div className="flex items-center justify-between">
-            <p className="text-slate-600 font-medium">¿Te gustó este artículo?</p>
+            <p className="text-slate-600 dark:text-slate-300 font-medium">¿Te gustó este artículo?</p>
             <button className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-colors">
               <Share2 className="w-5 h-5" />
               Compartir

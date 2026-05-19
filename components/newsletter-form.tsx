@@ -58,15 +58,15 @@ export function NewsletterForm() {
 
     if (isSuccess) {
         return (
-            <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-8 text-center max-w-md mx-auto mb-12">
+            <div className="bg-green-50 border border-green-200 rounded-xl p-8 text-center max-w-md mx-auto mb-12">
                 <CheckCircle2 className="w-12 h-12 text-green-500 mx-auto mb-4" />
-                <h3 className="text-xl font-bold text-white mb-2">¡Suscripción Confirmada!</h3>
-                <p className="text-slate-300">
+                <h3 className="text-xl font-bold text-slate-900 mb-2">¡Suscripción Confirmada!</h3>
+                <p className="text-slate-600">
                     Gracias por unirte a Ciclo de Hábitos. Revisa tu bandeja de entrada para confirmar tu correo.
                 </p>
                 <button
                     onClick={() => setIsSuccess(false)}
-                    className="mt-6 text-sm text-blue-400 hover:text-blue-300 underline"
+                    className="mt-6 text-sm text-blue-600 hover:text-blue-500 underline"
                 >
                     Suscribir otro correo
                 </button>
