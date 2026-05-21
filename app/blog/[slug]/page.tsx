@@ -1,6 +1,7 @@
 import { getPostData, getSortedPostsData } from '@/lib/blog';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import Image from 'next/image';
+import remarkGfm from 'remark-gfm';
 import Link from 'next/link';
 import { ArrowLeft, Clock, Calendar, User, Share2 } from 'lucide-react';
 import { Header } from '@/components/header';
@@ -49,7 +50,7 @@ const components = {
   th: (props: any) => <th className="px-6 py-4 text-sm font-bold text-slate-900 dark:text-slate-100 border-r border-slate-200 dark:border-slate-700 last:border-r-0 text-center" {...props} />,
   td: (props: any) => <td className="px-6 py-4 text-sm text-slate-700 dark:text-slate-300 border-r border-slate-200 dark:border-slate-700 last:border-r-0 text-center" {...props} />,
   strong: (props: any) => (
-    <strong className="font-bold text-slate-900 dark:text-white" {...props} />
+    <strong className="font-bold text-inherit" {...props} />
   ),
   a: (props: any) => (
     <a className="text-blue-600 hover:text-blue-700 underline font-medium" {...props} />
@@ -108,7 +109,15 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
         )}
 
         <div className="prose dark:prose-invert prose-lg max-w-none">
-          <MDXRemote source={post.content} components={components} />
+          <MDXRemote 
+            source={post.content} 
+            components={components} 
+            options={{
+              mdxOptions: {
+                remarkPlugins: [remarkGfm],
+              }
+            }}
+          />
         </div>
 
         {/* Share Section */}

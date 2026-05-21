@@ -10,26 +10,26 @@ import { Footer } from "@/components/footer"
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
       <Header />
 
       <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-6xl font-bold text-slate-900 mb-6">Sobre Ciclo de Hábitos</h1>
-          <p className="text-xl md:text-2xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+          <h1 className="text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6">Sobre Ciclo de Hábitos</h1>
+          <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed">
             Ayudamos a personas como tú a romper el ciclo de la procrastinación y construir hábitos que realmente duran
           </p>
         </div>
 
-        <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12 mb-12 border border-slate-200">
-          <h2 className="text-3xl font-bold text-slate-900 mb-6">Nuestra Historia</h2>
-          <div className="space-y-4 text-lg text-slate-700 leading-relaxed">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-xl p-8 md:p-12 mb-12 border border-slate-200 dark:border-slate-800">
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-6">Nuestra Historia</h2>
+          <div className="space-y-4 text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
             <p>
               Ciclo de Hábitos nació de una frustración personal: después de años intentando "cambiar mi vida" con
               motivación y fuerza de voluntad, me di cuenta de que el problema no era yo.
             </p>
             <p>
-              El problema era el <span className="font-bold text-slate-900">sistema</span>.
+              El problema era el <span className="font-bold text-slate-900 dark:text-white">sistema</span>.
             </p>
             <p>
               Estudié psicología del comportamiento, neurociencia de hábitos, y probé cada método que encontré. Algunos
@@ -43,22 +43,22 @@ export default function AboutPage() {
         </div>
 
         <div className="grid md:grid-cols-3 gap-8 mb-16">
-          <div className="bg-white rounded-2xl p-8 text-center shadow-lg border border-slate-200 hover:shadow-xl transition-shadow">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl p-8 text-center shadow-lg border border-slate-200 dark:border-slate-800 hover:shadow-xl transition-shadow">
             <Users className="w-12 h-12 text-blue-600 mx-auto mb-4" />
-            <div className="text-4xl font-bold text-slate-900 mb-2">2,800+</div>
-            <div className="text-slate-600">Vidas transformadas</div>
+            <div className="text-4xl font-bold text-slate-900 dark:text-white mb-2">2,800+</div>
+            <div className="text-slate-600 dark:text-slate-400">Vidas transformadas</div>
           </div>
 
-          <div className="bg-white rounded-2xl p-8 text-center shadow-lg border border-slate-200 hover:shadow-xl transition-shadow">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl p-8 text-center shadow-lg border border-slate-200 dark:border-slate-800 hover:shadow-xl transition-shadow">
             <BookOpen className="w-12 h-12 text-green-600 mx-auto mb-4" />
-            <div className="text-4xl font-bold text-slate-900 mb-2">50+</div>
-            <div className="text-slate-600">Artículos publicados</div>
+            <div className="text-4xl font-bold text-slate-900 dark:text-white mb-2">50+</div>
+            <div className="text-slate-600 dark:text-slate-400">Artículos publicados</div>
           </div>
 
-          <div className="bg-white rounded-2xl p-8 text-center shadow-lg border border-slate-200 hover:shadow-xl transition-shadow">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl p-8 text-center shadow-lg border border-slate-200 dark:border-slate-800 hover:shadow-xl transition-shadow">
             <TrendingUp className="w-12 h-12 text-purple-600 mx-auto mb-4" />
-            <div className="text-4xl font-bold text-slate-900 mb-2">4.9/5</div>
-            <div className="text-slate-600">Valoración promedio</div>
+            <div className="text-4xl font-bold text-slate-900 dark:text-white mb-2">4.9/5</div>
+            <div className="text-slate-600 dark:text-slate-400">Valoración promedio</div>
           </div>
         </div>
 
@@ -90,10 +90,10 @@ export default function AboutPage() {
           </div>
         </div>
 
-        <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12 border border-slate-200">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-xl p-8 md:p-12 border border-slate-200 dark:border-slate-800">
           <div className="flex items-center gap-3 mb-6">
             <Lightbulb className="w-10 h-10 text-yellow-500" />
-            <h2 className="text-3xl font-bold text-slate-900">Nuestros Valores</h2>
+            <h2 className="text-3xl font-bold text-slate-900 dark:text-white">Nuestros Valores</h2>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
             {[
@@ -114,11 +114,11 @@ export default function AboutPage() {
                 desc: "Crecemos juntos. Tu éxito es nuestro éxito.",
               },
             ].map((value, idx) => (
-              <div key={idx} className="flex items-start gap-4 p-4 rounded-xl hover:bg-slate-50 transition-colors">
+              <div key={idx} className="flex items-start gap-4 p-4 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                 <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0" />
                 <div>
-                  <h3 className="font-bold text-lg text-slate-900 mb-1">{value.title}</h3>
-                  <p className="text-slate-600">{value.desc}</p>
+                  <h3 className="font-bold text-lg text-slate-900 dark:text-white mb-1">{value.title}</h3>
+                  <p className="text-slate-600 dark:text-slate-400">{value.desc}</p>
                 </div>
               </div>
             ))}
@@ -126,8 +126,8 @@ export default function AboutPage() {
         </div>
 
         <div className="mt-16 text-center">
-          <h2 className="text-3xl font-bold text-slate-900 mb-4">¿Listo para empezar?</h2>
-          <p className="text-xl text-slate-600 mb-8">Únete a miles de personas que ya están transformando sus vidas</p>
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">¿Listo para empezar?</h2>
+          <p className="text-xl text-slate-600 dark:text-slate-300 mb-8">Únete a miles de personas que ya están transformando sus vidas</p>
           <Link
             href="/"
             className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold text-lg px-10 py-5 rounded-2xl transition-all hover:scale-105 shadow-xl"

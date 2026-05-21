@@ -111,8 +111,8 @@ export default function Home() {
                 Pero Ciclo de Hábitos no es solo un repositorio de papers traducidos. Es un laboratorio de aplicación: cada concepto científico viene acompañado de ejemplos concretos, pasos accionables y una perspectiva honesta sobre qué funciona, qué no, y por qué. Porque entender la teoría sin poder aplicarla es tan inútil como la motivación vacía que criticamos.
               </p>
 
-              <h3 className="text-2xl font-bold text-slate-900 mb-4 mt-12 flex items-center gap-3">
-                <span className="w-8 h-1 bg-blue-600 rounded-full"></span> Para quién es este blog
+              <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 mt-12 flex items-center gap-3">
+                <span className="w-8 h-1 bg-blue-600 dark:bg-blue-500 rounded-full"></span> Para quién es este blog
               </h3>
               <p>
                 Si ya intentaste cambiar hábitos y fallaste — más de una vez, con más de un método — este blog es para vos. No para darte otro sistema milagroso, sino para ayudarte a entender por qué los anteriores fallaron y qué podés hacer diferente desde la biología, no desde la culpa.

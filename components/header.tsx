@@ -25,9 +25,6 @@ export function Header() {
                         <Link href="/blog" className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition font-medium hover:bg-slate-50 dark:hover:bg-slate-800 px-3 py-2 rounded-lg">
                             Blog
                         </Link>
-                        <Link href="/directorio-ia" className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition font-medium hover:bg-slate-50 dark:hover:bg-slate-800 px-3 py-2 rounded-lg">
-                            Directorio IA
-                        </Link>
                         <Link href="/#newsletter" className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition font-medium hover:bg-slate-50 dark:hover:bg-slate-800 px-3 py-2 rounded-lg">
                             Newsletter
                         </Link>

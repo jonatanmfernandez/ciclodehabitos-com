@@ -38,32 +38,32 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
       <Header />
 
       <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-16">
-          <MessageSquare className="w-16 h-16 mx-auto mb-4 text-blue-600" />
-          <h1 className="text-4xl md:text-6xl font-bold text-slate-900 mb-6">Hablemos</h1>
-          <p className="text-xl text-slate-600 max-w-2xl mx-auto">
+          <MessageSquare className="w-16 h-16 mx-auto mb-4 text-blue-600 dark:text-blue-500" />
+          <h1 className="text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-6">Hablemos</h1>
+          <p className="text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
             ¿Tienes preguntas, sugerencias o simplemente quieres compartir tu historia? Nos encantaría escucharte
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-12 mb-16">
           <div>
-            <h2 className="text-2xl font-bold text-slate-900 mb-6">Envíanos un mensaje</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Envíanos un mensaje</h2>
 
             {submitted ? (
-              <div className="bg-green-50 border-2 border-green-200 rounded-2xl p-8 text-center">
-                <CheckCircle2 className="w-16 h-16 text-green-600 mx-auto mb-4" />
-                <h3 className="text-2xl font-bold text-green-900 mb-2">¡Mensaje enviado!</h3>
-                <p className="text-green-700">Te responderemos lo antes posible.</p>
+              <div className="bg-green-50 dark:bg-green-950/20 border-2 border-green-200 dark:border-green-900/50 rounded-2xl p-8 text-center">
+                <CheckCircle2 className="w-16 h-16 text-green-600 dark:text-green-500 mx-auto mb-4" />
+                <h3 className="text-2xl font-bold text-green-900 dark:text-green-300 mb-2">¡Mensaje enviado!</h3>
+                <p className="text-green-700 dark:text-green-400">Te responderemos lo antes posible.</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-semibold text-slate-700 mb-2">
+                  <label htmlFor="name" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
                     Nombre
                   </label>
                   <input
@@ -73,13 +73,13 @@ export default function ContactPage() {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-blue-500 focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-xl border-2 border-slate-200 dark:border-slate-800 focus:border-blue-500 focus:outline-none transition-colors"
                     placeholder="Tu nombre"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block text-sm font-semibold text-slate-700 mb-2">
+                  <label htmlFor="email" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
                     Email
                   </label>
                   <input
@@ -89,13 +89,13 @@ export default function ContactPage() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-blue-500 focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-xl border-2 border-slate-200 dark:border-slate-800 focus:border-blue-500 focus:outline-none transition-colors"
                     placeholder="tu@email.com"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="subject" className="block text-sm font-semibold text-slate-700 mb-2">
+                  <label htmlFor="subject" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
                     Asunto
                   </label>
                   <select
@@ -104,19 +104,19 @@ export default function ContactPage() {
                     value={formData.subject}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-blue-500 focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-xl border-2 border-slate-200 dark:border-slate-800 focus:border-blue-500 focus:outline-none transition-colors"
                   >
-                    <option value="">Selecciona un asunto</option>
-                    <option value="general">Consulta general</option>
-                    <option value="support">Soporte técnico</option>
-                    <option value="collaboration">Colaboración</option>
-                    <option value="feedback">Feedback</option>
-                    <option value="other">Otro</option>
+                    <option value="" className="dark:bg-slate-900">Selecciona un asunto</option>
+                    <option value="general" className="dark:bg-slate-900">Consulta general</option>
+                    <option value="support" className="dark:bg-slate-900">Soporte técnico</option>
+                    <option value="collaboration" className="dark:bg-slate-900">Colaboración</option>
+                    <option value="feedback" className="dark:bg-slate-900">Feedback</option>
+                    <option value="other" className="dark:bg-slate-900">Otro</option>
                   </select>
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-semibold text-slate-700 mb-2">
+                  <label htmlFor="message" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
                     Mensaje
                   </label>
                   <textarea
@@ -126,7 +126,7 @@ export default function ContactPage() {
                     onChange={handleChange}
                     required
                     rows={6}
-                    className="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-blue-500 focus:outline-none transition-colors resize-none"
+                    className="w-full px-4 py-3 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-xl border-2 border-slate-200 dark:border-slate-800 focus:border-blue-500 focus:outline-none transition-colors resize-none"
                     placeholder="Cuéntanos en qué podemos ayudarte..."
                   />
                 </div>
@@ -143,20 +143,20 @@ export default function ContactPage() {
           </div>
 
           <div>
-            <h2 className="text-2xl font-bold text-slate-900 mb-6">Otras formas de contacto</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Otras formas de contacto</h2>
 
             <div className="space-y-6">
-              <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-200 hover:shadow-xl transition-shadow">
+              <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-800 hover:shadow-xl transition-shadow">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Mail className="w-6 h-6 text-blue-600" />
+                  <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/40 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <Mail className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-lg text-slate-900 mb-2">Email directo</h3>
-                    <p className="text-slate-600 mb-2">Para consultas más detalladas</p>
+                    <h3 className="font-bold text-lg text-slate-900 dark:text-white mb-2">Email directo</h3>
+                    <p className="text-slate-600 dark:text-slate-400 mb-2">Para consultas más detalladas</p>
                     <a
                       href="mailto:hola@ciclodehabitos.com"
-                      className="text-blue-600 hover:text-blue-700 font-semibold"
+                      className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold"
                     >
                       hola@ciclodehabitos.com
                     </a>
@@ -164,24 +164,24 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-200 hover:shadow-xl transition-shadow">
+              <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-800 hover:shadow-xl transition-shadow">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <MessageSquare className="w-6 h-6 text-green-600" />
+                  <div className="w-12 h-12 bg-green-100 dark:bg-green-900/40 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <MessageSquare className="w-6 h-6 text-green-600 dark:text-green-400" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-lg text-slate-900 mb-2">Redes sociales</h3>
-                    <p className="text-slate-600 mb-3">Síguenos para contenido diario</p>
+                    <h3 className="font-bold text-lg text-slate-900 dark:text-white mb-2">Redes sociales</h3>
+                    <p className="text-slate-600 dark:text-slate-400 mb-3">Síguenos para contenido diario</p>
                     <div className="flex gap-3">
-                      <a href="#" className="text-slate-600 hover:text-blue-600 transition">
+                      <a href="#" className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition">
                         Twitter
                       </a>
-                      <span className="text-slate-300">•</span>
-                      <a href="#" className="text-slate-600 hover:text-blue-600 transition">
+                      <span className="text-slate-300 dark:text-slate-700">•</span>
+                      <a href="#" className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition">
                         Instagram
                       </a>
-                      <span className="text-slate-300">•</span>
-                      <a href="#" className="text-slate-600 hover:text-blue-600 transition">
+                      <span className="text-slate-300 dark:text-slate-700">•</span>
+                      <a href="#" className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition">
                         LinkedIn
                       </a>
                     </div>
@@ -202,9 +202,9 @@ export default function ContactPage() {
           </div>
         </div>
 
-        <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12 text-center border border-slate-200">
-          <h2 className="text-3xl font-bold text-slate-900 mb-4">¿Prefieres empezar por tu cuenta?</h2>
-          <p className="text-xl text-slate-600 mb-8">Descarga nuestra guía gratuita y comienza tu transformación hoy</p>
+        <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-xl p-8 md:p-12 text-center border border-slate-200 dark:border-slate-800">
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">¿Prefieres empezar por tu cuenta?</h2>
+          <p className="text-xl text-slate-600 dark:text-slate-300 mb-8">Descarga nuestra guía gratuita y comienza tu transformación hoy</p>
           <Link
             href="/"
             className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold text-lg px-10 py-5 rounded-2xl transition-all hover:scale-105 shadow-xl"

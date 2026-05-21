@@ -135,16 +135,16 @@ export default function DirectorioIA() {
   })
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-slate-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-slate-100 dark:from-slate-950 dark:via-purple-950/20 dark:to-slate-950">
       <Header />
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <Sparkles className="w-12 h-12 text-purple-600" />
-            <h1 className="text-4xl md:text-6xl font-bold text-slate-900">Directorio de Herramientas IA</h1>
+            <Sparkles className="w-12 h-12 text-purple-600 dark:text-purple-400" />
+            <h1 className="text-4xl md:text-6xl font-bold text-slate-900 dark:text-white">Directorio de Herramientas IA</h1>
           </div>
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+          <p className="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto">
             Descubre las mejores herramientas de inteligencia artificial para potenciar tu productividad y creatividad
           </p>
         </div>
@@ -158,7 +158,7 @@ export default function DirectorioIA() {
                 placeholder="Buscar herramientas de IA..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-slate-200 focus:border-purple-500 focus:outline-none text-slate-900 bg-white shadow-sm"
+                className="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-slate-200 dark:border-slate-800 focus:border-purple-500 dark:focus:border-purple-500 text-slate-900 dark:text-white bg-white dark:bg-slate-900 shadow-sm"
               />
             </div>
           </div>
@@ -171,7 +171,7 @@ export default function DirectorioIA() {
                 className={`px-6 py-3 rounded-full font-semibold transition-all ${
                   selectedCategory === category
                     ? "bg-purple-600 text-white shadow-lg"
-                    : "bg-white text-slate-600 hover:bg-purple-50 border border-slate-200"
+                    : "bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-purple-50 dark:hover:bg-purple-950/20 border border-slate-200 dark:border-slate-800"
                 }`}
               >
                 {category}
@@ -186,33 +186,33 @@ export default function DirectorioIA() {
             return (
               <div
                 key={idx}
-                className="bg-white rounded-2xl p-6 hover:shadow-xl transition-all border border-slate-200 group"
+                className="bg-white dark:bg-slate-900 rounded-2xl p-6 hover:shadow-xl transition-all border border-slate-200 dark:border-slate-800 group"
               >
                 <div className="flex items-start justify-between mb-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-purple-100 to-blue-100 rounded-xl flex items-center justify-center">
-                    <Icon className="w-6 h-6 text-purple-600" />
+                  <div className="w-12 h-12 bg-gradient-to-br from-purple-100 to-blue-100 dark:from-purple-950/40 dark:to-blue-950/40 rounded-xl flex items-center justify-center">
+                    <Icon className="w-6 h-6 text-purple-600 dark:text-purple-400" />
                   </div>
                   {tool.isPremium && (
-                    <span className="text-xs font-semibold text-amber-600 bg-amber-50 px-3 py-1 rounded-full flex items-center gap-1">
+                    <span className="text-xs font-semibold text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 px-3 py-1 rounded-full flex items-center gap-1">
                       <Zap className="w-3 h-3" />
                       Premium
                     </span>
                   )}
                 </div>
 
-                <h3 className="font-bold text-xl text-slate-900 mb-2">{tool.name}</h3>
+                <h3 className="font-bold text-xl text-slate-900 dark:text-white mb-2">{tool.name}</h3>
 
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="text-xs font-semibold text-purple-600 bg-purple-50 px-3 py-1 rounded-full">
+                  <span className="text-xs font-semibold text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/40 px-3 py-1 rounded-full">
                     {tool.category}
                   </span>
                   <div className="flex items-center gap-1">
                     <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-                    <span className="text-sm font-semibold text-slate-700">{tool.rating}</span>
+                    <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">{tool.rating}</span>
                   </div>
                 </div>
 
-                <p className="text-slate-600 mb-6 text-sm leading-relaxed">{tool.description}</p>
+                <p className="text-slate-600 dark:text-slate-300 mb-6 text-sm leading-relaxed">{tool.description}</p>
 
                 <a
                   href={tool.url}
@@ -230,7 +230,7 @@ export default function DirectorioIA() {
 
         {filteredTools.length === 0 && (
           <div className="text-center py-16">
-            <p className="text-xl text-slate-600">No se encontraron herramientas que coincidan con tu búsqueda</p>
+            <p className="text-xl text-slate-600 dark:text-slate-400">No se encontraron herramientas que coincidan con tu búsqueda</p>
           </div>
         )}
 
