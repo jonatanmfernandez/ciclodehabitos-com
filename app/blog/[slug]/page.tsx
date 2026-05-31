@@ -14,6 +14,15 @@ export async function generateStaticParams() {
   }));
 }
 
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const post = getPostData(slug);
+  return {
+    title: `${post.title} | Ciclo de Hábitos`,
+    description: post.excerpt,
+  };
+}
+
 // Custom MDX components for better styling
 const components = {
   h2: (props: any) => (
