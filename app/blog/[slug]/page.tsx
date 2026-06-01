@@ -32,7 +32,7 @@ const components = {
     <h3 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-4 leading-snug" {...props} />
   ),
   p: (props: any) => (
-    <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed mb-6" {...props} />
+    <p className="text-lg text-inherit leading-relaxed mb-6" {...props} />
   ),
   blockquote: (props: any) => (
     <blockquote className="border-l-4 border-blue-600 bg-blue-50 dark:bg-blue-900/30 pl-6 pr-4 py-4 my-8 italic text-lg text-slate-800 dark:text-slate-200 rounded-r-lg" {...props} />
