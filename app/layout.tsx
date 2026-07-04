@@ -52,6 +52,7 @@ export const metadata: Metadata = {
       "https://va.vercel-scripts.com",
       process.env.NEXT_PUBLIC_SUPABASE_URL || "",
     ].filter(Boolean),
+    "p:domain_verify": "ea6bfcd444a0345a5a55610723300c4c",
   },
   openGraph: {
     title: "Ciclo de Hábitos - Transforma Tu Vida en 30 Días",
