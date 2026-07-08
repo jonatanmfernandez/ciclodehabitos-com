@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Menu } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 
 export function MobileNav() {
@@ -27,6 +27,8 @@ export function MobileNav() {
         </Button>
       </SheetTrigger>
       <SheetContent side="right" className="w-[300px] sm:w-[400px] px-6">
+        <SheetTitle className="sr-only">Menú de navegación</SheetTitle>
+        <SheetDescription className="sr-only">Enlaces principales del sitio</SheetDescription>
         <div className="flex flex-col gap-6 mt-8">
           <Link href="/" className="flex items-center gap-3 mb-4" onClick={() => setOpen(false)}>
             <Image src="/images/logo.png" alt="Ciclo de Hábitos Logo" width={40} height={40} className="w-10 h-10" />

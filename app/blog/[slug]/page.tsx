@@ -1,3 +1,4 @@
+import { Children, isValidElement } from 'react';
 import { getPostData, getSortedPostsData } from '@/lib/blog';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import Image from 'next/image';
@@ -23,6 +24,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
+// MDX compila JSX pegado a texto (sin línea en blanco de por medio) como hijos
+// inline de un párrafo; un <p> con hijos de bloque es HTML inválido y rompe la
+// hidratación de React, así que en ese caso renderizamos un <div> equivalente.
+const blockTags = new Set(['div', 'details', 'table', 'ul', 'ol', 'blockquote', 'pre', 'figure', 'section', 'aside']);
+
 // Custom MDX components for better styling
 const components = {
   h2: (props: any) => (
@@ -31,9 +37,13 @@ const components = {
   h3: (props: any) => (
     <h3 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mt-10 mb-4 leading-snug" {...props} />
   ),
-  p: (props: any) => (
-    <p className="text-lg text-inherit leading-relaxed mb-6" {...props} />
-  ),
+  p: (props: any) => {
+    const hasBlockChild = Children.toArray(props.children).some(
+      (child) => isValidElement(child) && typeof child.type === 'string' && blockTags.has(child.type)
+    );
+    const Tag = hasBlockChild ? 'div' : 'p';
+    return <Tag className="text-lg text-inherit leading-relaxed mb-6" {...props} />;
+  },
   blockquote: (props: any) => (
     <blockquote className="border-l-4 border-blue-600 bg-blue-50 dark:bg-blue-900/30 pl-6 pr-4 py-4 my-8 italic text-lg text-slate-800 dark:text-slate-200 rounded-r-lg" {...props} />
   ),
