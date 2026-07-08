@@ -1,16 +1,32 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { Resend } from 'resend';
+import WelcomeEmail from '@/emails/welcome';
+import WelcomePhilosophyEmail from '@/emails/welcome-philosophy';
+import WelcomeFirstHabitEmail from '@/emails/welcome-first-habit';
+import WelcomeCtaEmail from '@/emails/welcome-cta';
+import { buildUnsubscribeUrl } from '@/lib/newsletter';
 
 const EmailSchema = z.object({
     email: z.string().email({ message: "Por favor ingresa un correo electrónico válido" }),
 });
 
+const FROM = 'Jonatan de Ciclo de Hábitos <hola@ciclodehabitos.com>';
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+// Secuencia de bienvenida: el email 1 sale al instante; los demás quedan
+// programados en Resend (scheduledAt admite hasta 30 días a futuro).
+const WELCOME_SEQUENCE = [
+    { delayDays: 0, subject: 'Bienvenido a Ciclo de Hábitos 🎁', render: WelcomeEmail },
+    { delayDays: 1, subject: 'Mi filosofía sobre los hábitos', render: WelcomePhilosophyEmail },
+    { delayDays: 3, subject: 'Tu primer hábito simple (toma 1 minuto)', render: WelcomeFirstHabitEmail },
+    { delayDays: 7, subject: 'Seguimos construyendo hábitos', render: WelcomeCtaEmail },
+];
+
 export async function POST(request: Request) {
     try {
         const body = await request.json();
 
-        // Validate email
         const result = EmailSchema.safeParse(body);
         if (!result.success) {
             return NextResponse.json(
@@ -21,39 +37,53 @@ export async function POST(request: Request) {
 
         const email = result.data.email.toLowerCase();
 
-        // Añadir a la audiencia y enviar Welcome Email via Resend
-        try {
-            const resendApiKey = process.env.RESEND_API_KEY;
-            if (resendApiKey) {
-                const resend = new Resend(resendApiKey);
-                
-                // 1. Añadir el contacto a Resend Audiences
-                const audienceId = process.env.RESEND_AUDIENCE_ID;
-                if (audienceId) {
-                    const result = await resend.contacts.create({
-                        email: email,
-                        unsubscribed: false,
-                        audienceId: audienceId,
-                    });
-                    
-                    if (result.error) {
-                        console.error('Error guardando contacto en resend:', result.error);
-                    }
+        const resendApiKey = process.env.RESEND_API_KEY;
+        if (!resendApiKey) {
+            // Entorno sin clave (dev local): no fallamos el formulario.
+            console.warn('RESEND_API_KEY no configurada; suscripción no procesada para', email);
+            return NextResponse.json(
+                { message: "¡Suscripción exitosa! Revisa tu correo pronto." },
+                { status: 200 }
+            );
+        }
+
+        const resend = new Resend(resendApiKey);
+
+        const audienceId = process.env.RESEND_AUDIENCE_ID;
+        if (audienceId) {
+            const contact = await resend.contacts.create({
+                email,
+                unsubscribed: false,
+                audienceId,
+            });
+
+            if (contact.error) {
+                // Si ya estaba suscrito, no re-disparamos la secuencia de bienvenida.
+                if (/exist/i.test(contact.error.message || '')) {
+                    return NextResponse.json(
+                        { message: "Ya estabas suscrito. ¡Gracias por estar ahí!" },
+                        { status: 200 }
+                    );
                 }
-
-                // 2. Enviar correo de bienvenida
-                const { default: WelcomeEmail } = await import('@/components/emails/welcome-email');
-
-                await resend.emails.send({
-                    from: 'Ciclo de Hábitos <hola@ciclodehabitos.com>', // Puedes cambiar "hola" por "contacto" o lo que prefieras
-                    to: email,
-                    subject: 'Bienvenido a Ciclo de Hábitos',
-                    react: WelcomeEmail({ email }),
-                });
+                console.error('Error guardando contacto en Resend:', contact.error);
             }
-        } catch (emailError) {
-            console.error('Error sending email:', emailError);
-            // No fallamos la petición si el email falla
+        }
+
+        const unsubscribeUrl = buildUnsubscribeUrl(email);
+
+        for (const step of WELCOME_SEQUENCE) {
+            const { error } = await resend.emails.send({
+                from: FROM,
+                to: email,
+                subject: step.subject,
+                react: step.render({ unsubscribeUrl }),
+                scheduledAt: step.delayDays > 0
+                    ? new Date(Date.now() + step.delayDays * DAY_MS).toISOString()
+                    : undefined,
+            });
+            if (error) {
+                console.error(`Error enviando "${step.subject}" a ${email}:`, error);
+            }
         }
 
         return NextResponse.json(
