@@ -51,36 +51,56 @@ export async function POST(request: Request) {
 
         const audienceId = process.env.RESEND_AUDIENCE_ID;
         if (audienceId) {
-            const contact = await resend.contacts.create({
-                email,
-                unsubscribed: false,
-                audienceId,
-            });
+            // contacts.create es idempotente en Resend (no falla si el contacto ya
+            // existe), así que la deduplicación se hace consultando antes de crear.
+            const existing = await resend.contacts.get({ email, audienceId });
 
-            if (contact.error) {
-                // Si ya estaba suscrito, no re-disparamos la secuencia de bienvenida.
-                if (/exist/i.test(contact.error.message || '')) {
-                    return NextResponse.json(
-                        { message: "Ya estabas suscrito. ¡Gracias por estar ahí!" },
-                        { status: 200 }
-                    );
+            if (existing.data && existing.data.unsubscribed === false) {
+                // Suscriptor activo: no re-disparamos la secuencia de bienvenida.
+                return NextResponse.json(
+                    { message: "Ya estabas suscrito. ¡Gracias por estar ahí!" },
+                    { status: 200 }
+                );
+            }
+
+            if (existing.data) {
+                // Estaba dado de baja y vuelve: lo reactivamos y recibe la secuencia.
+                const updated = await resend.contacts.update({ audienceId, email, unsubscribed: false });
+                if (updated.error) {
+                    console.error('Error reactivando contacto en Resend:', updated.error);
                 }
-                console.error('Error guardando contacto en Resend:', contact.error);
+            } else {
+                const contact = await resend.contacts.create({
+                    email,
+                    unsubscribed: false,
+                    audienceId,
+                });
+                if (contact.error) {
+                    console.error('Error guardando contacto en Resend:', contact.error);
+                }
             }
         }
 
         const unsubscribeUrl = buildUnsubscribeUrl(email);
 
         for (const step of WELCOME_SEQUENCE) {
-            const { error } = await resend.emails.send({
-                from: FROM,
-                to: email,
-                subject: step.subject,
-                react: step.render({ unsubscribeUrl }),
-                scheduledAt: step.delayDays > 0
-                    ? new Date(Date.now() + step.delayDays * DAY_MS).toISOString()
-                    : undefined,
-            });
+            // Clave de idempotencia: si el formulario se reenvía (doble clic,
+            // reintento, o una segunda suscripción antes de que Resend expire la
+            // clave a las 24 h) el envío duplicado se descarta en lugar de mandar
+            // dos veces el mismo email de la secuencia de bienvenida.
+            const idempotencyKey = `welcome-${step.delayDays}-${email}`;
+            const { error } = await resend.emails.send(
+                {
+                    from: FROM,
+                    to: email,
+                    subject: step.subject,
+                    react: step.render({ unsubscribeUrl }),
+                    scheduledAt: step.delayDays > 0
+                        ? new Date(Date.now() + step.delayDays * DAY_MS).toISOString()
+                        : undefined,
+                },
+                { idempotencyKey }
+            );
             if (error) {
                 console.error(`Error enviando "${step.subject}" a ${email}:`, error);
             }
