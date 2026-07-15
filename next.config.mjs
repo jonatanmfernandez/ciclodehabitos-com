@@ -19,6 +19,7 @@ const nextConfig = {
   // los .mdx no se incluyen en el bundle serverless de Vercel.
   outputFileTracingIncludes: {
     '/api/newsletter/weekly': ['./content/blog/**/*'],
+    '/blog/[slug]': ['./content/blog/**/*'],
   },
   allowedDevOrigins: ["192.168.1.37"],
 }
