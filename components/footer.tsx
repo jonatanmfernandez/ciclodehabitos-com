@@ -37,8 +37,7 @@ export function Footer() {
                         <ul className="space-y-2 text-slate-600 dark:text-slate-400">
                             <li><Link href="/about" className="hover:text-blue-600 transition-colors">Sobre mí</Link></li>
                             <li><Link href="/contact" className="hover:text-blue-600 transition-colors">Contacto</Link></li>
-                            <li><a href="#" aria-label="Visitar Twitter / X" className="hover:text-blue-600 transition-colors">Twitter / X</a></li>
-                            <li><a href="#" aria-label="Visitar Instagram" className="hover:text-blue-600 transition-colors">Instagram</a></li>
+                            <li><a href="https://ar.pinterest.com/ciclodehabitosok/" aria-label="Visitar Pinterest" className="hover:text-blue-600 transition-colors">Pinterest</a></li>
                         </ul>
                     </div>
                 </div>
