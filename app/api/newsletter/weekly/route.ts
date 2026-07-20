@@ -57,6 +57,7 @@ export async function GET(request: Request) {
 
         const resend = new Resend(resendApiKey);
         const broadcastName = `newsletter-semanal-${latest.slug}`;
+        const idempotencyKey = `newsletter-semanal-${latest.slug}`;
         const url = new URL(request.url);
         const force = url.searchParams.get('force') === '1';
         const dryRun = url.searchParams.get('dryRun') === '1';
@@ -92,7 +93,7 @@ export async function GET(request: Request) {
             subject: latest.title,
             name: broadcastName,
             react: WeeklyEmail(payload),
-        });
+        }, { idempotencyKey });
         if (created.error || !created.data) {
             console.error('Error creando broadcast:', created.error);
             return NextResponse.json({ error: created.error?.message || 'Error creando broadcast' }, { status: 502 });
