@@ -1,9 +1,10 @@
 import { MetadataRoute } from 'next'
+import { getSortedPostsData } from '@/lib/blog'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://ciclodehabitos.com'
 
-  const routes = [
+  const staticRoutes = [
     '',
     '/blog',
     '/directorio-ia',
@@ -21,5 +22,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: route === '' ? 1 : 0.8,
   }))
 
-  return [...routes]
+  const posts = getSortedPostsData()
+  const postRoutes = posts.map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}`,
+    lastModified: post.date ? new Date(post.date) : new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.7,
+  }))
+
+  return [...staticRoutes, ...postRoutes]
 }
+

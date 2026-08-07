@@ -18,9 +18,38 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const post = getPostData(slug);
+  const url = `https://ciclodehabitos.com/blog/${slug}`;
+  const imageUrl = post.image ? `https://ciclodehabitos.com${post.image}` : 'https://ciclodehabitos.com/images/logo.png';
+
   return {
     title: `${post.title} | Ciclo de Hábitos`,
     description: post.excerpt,
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      url: url,
+      siteName: 'Ciclo de Hábitos',
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+      type: 'article',
+      publishedTime: post.date,
+      authors: [post.author || 'Jonatan Fernandez'],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.excerpt,
+      images: [imageUrl],
+    },
   };
 }
 
@@ -80,8 +109,38 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const post = getPostData(slug);
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.excerpt,
+    image: post.image ? [`https://ciclodehabitos.com${post.image}`] : [],
+    datePublished: post.date,
+    author: {
+      '@type': 'Person',
+      name: post.author || 'Jonatan Fernandez',
+      url: 'https://ciclodehabitos.com/about',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Ciclo de Hábitos',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://ciclodehabitos.com/images/logo.png',
+      },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `https://ciclodehabitos.com/blog/${slug}`,
+    },
+  };
+
   return (
     <div className="min-h-screen bg-background">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Header />
 
       <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
@@ -139,8 +198,24 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
           />
         </div>
 
+        {/* EEAT Author Card */}
+        <div className="mt-16 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 flex flex-col sm:flex-row items-center sm:items-start gap-6">
+          <div className="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold flex-shrink-0">
+            {post.author ? post.author.charAt(0) : 'J'}
+          </div>
+          <div>
+            <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Escrito por {post.author || 'Jonatan Fernandez'}</h4>
+            <p className="text-slate-600 dark:text-slate-300 text-base leading-relaxed mb-4">
+              Investigador y divulgador sobre ciencia del comportamiento, neurociencia aplicada y sistemas de productividad sostenible. Creador de Ciclo de Hábitos.
+            </p>
+            <Link href="/about" className="text-blue-600 dark:text-blue-400 font-semibold hover:underline text-sm">
+              Conocer más sobre el autor &rarr;
+            </Link>
+          </div>
+        </div>
+
         {/* Share Section */}
-        <div className="mt-16 pt-8 border-t border-slate-200 dark:border-slate-800">
+        <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800">
           <div className="flex items-center justify-between">
             <p className="text-slate-600 dark:text-slate-300 font-medium">¿Te gustó este artículo?</p>
             <button className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-colors">
