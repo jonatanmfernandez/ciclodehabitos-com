@@ -200,8 +200,13 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
 
         {/* EEAT Author Card */}
         <div className="mt-16 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-8 flex flex-col sm:flex-row items-center sm:items-start gap-6">
-          <div className="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold flex-shrink-0">
-            {post.author ? post.author.charAt(0) : 'J'}
+          <div className="relative w-16 h-16 rounded-full overflow-hidden flex-shrink-0 border-2 border-blue-600/20 shadow-md">
+            <Image
+              src="/images/jonatan-fernandez.png"
+              alt={post.author || 'Jonatan Fernandez'}
+              fill
+              className="object-cover"
+            />
           </div>
           <div>
             <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Escrito por {post.author || 'Jonatan Fernandez'}</h4>
