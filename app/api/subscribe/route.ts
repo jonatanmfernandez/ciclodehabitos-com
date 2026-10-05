@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { Resend } from 'resend';
-import WelcomeEmail from '@/emails/welcome';
-import WelcomePhilosophyEmail from '@/emails/welcome-philosophy';
-import WelcomeFirstHabitEmail from '@/emails/welcome-first-habit';
-import WelcomeCtaEmail from '@/emails/welcome-cta';
+import WelcomeLeadMagnetEmail from '@/emails/welcome-lead-magnet';
+import WelcomeScience66Email from '@/emails/welcome-science-66';
+import WelcomeLoopDesignEmail from '@/emails/welcome-loop-design';
+import WelcomeEnvironmentEmail from '@/emails/welcome-environment';
+import WelcomeCompleteSystemEmail from '@/emails/welcome-complete-system';
 import { buildUnsubscribeUrl } from '@/lib/newsletter';
 
 const EmailSchema = z.object({
@@ -14,13 +15,18 @@ const EmailSchema = z.object({
 const FROM = 'Jonatan de Ciclo de Hábitos <hola@ciclodehabitos.com>';
 const DAY_MS = 24 * 60 * 60 * 1000;
 
-// Secuencia de bienvenida: el email 1 sale al instante; los demás quedan
-// programados en Resend (scheduledAt admite hasta 30 días a futuro).
+// Secuencia de bienvenida de 10 días para el Lead Magnet (PDF: El Arte de Diseñar Hábitos)
+// Día 0: Entrega del PDF + gancho de respuesta
+// Día 2: Mito de los 21 días vs 66 días + Versión Mínima
+// Día 4: El bucle de 3 piezas (Señal, Rutina, Recompensa)
+// Día 7: El diseño de entorno le gana a la disciplina
+// Día 10: Pasando al sistema completo (Conversión a Ciclo de Hábitos)
 const WELCOME_SEQUENCE = [
-    { delayDays: 0, subject: 'Bienvenido a Ciclo de Hábitos 🎁', render: WelcomeEmail },
-    { delayDays: 1, subject: 'Mi filosofía sobre los hábitos', render: WelcomePhilosophyEmail },
-    { delayDays: 3, subject: 'Tu primer hábito simple (toma 1 minuto)', render: WelcomeFirstHabitEmail },
-    { delayDays: 7, subject: 'Seguimos construyendo hábitos', render: WelcomeCtaEmail },
+    { delayDays: 0, subject: 'Acá está tu guía: El Arte de Diseñar Hábitos 🎁', render: WelcomeLeadMagnetEmail },
+    { delayDays: 2, subject: 'Por qué el 92% fracasa el día 14 (y la regla de los 66 días)', render: WelcomeScience66Email },
+    { delayDays: 4, subject: 'Las 3 piezas que hacen que un hábito se sostenga solo', render: WelcomeLoopDesignEmail },
+    { delayDays: 7, subject: 'El diseño de entorno le gana a la disciplina (siempre)', render: WelcomeEnvironmentEmail },
+    { delayDays: 10, subject: 'De la guía al sistema completo: Tu mapa de 30 días 🚀', render: WelcomeCompleteSystemEmail },
 ];
 
 export async function POST(request: Request) {

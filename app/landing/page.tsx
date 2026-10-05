@@ -1,453 +1,459 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { ArrowRight, CheckCircle2, Users, TrendingUp, Target, X, Clock, Gift, AlertCircle, Brain } from "lucide-react"
+import { useState } from "react"
+import { ArrowRight, CheckCircle2, Download, BookOpen, Sparkles, AlertCircle, Check, Loader2 } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
-import { MobileNav } from "@/components/mobile-nav"
-import { Chatbot } from "@/components/chatbot"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 
 export default function LandingPage() {
-    const [userCount, setUserCount] = useState(2847)
-    const [recentDownloads, setRecentDownloads] = useState(348)
-    const [isVisible, setIsVisible] = useState(false)
-    const [showExitPopup, setShowExitPopup] = useState(false)
-    const [showBanner, setShowBanner] = useState(true)
     const [email, setEmail] = useState("")
+    const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
+    const [message, setMessage] = useState("")
 
-    useEffect(() => {
-        setIsVisible(true)
-        const interval = setInterval(() => {
-            setUserCount((prev) => prev + Math.floor(Math.random() * 3))
-            setRecentDownloads((prev) => prev + Math.floor(Math.random() * 2))
-        }, 5000)
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault()
+        if (!email || !email.includes("@")) {
+            setStatus("error")
+            setMessage("Por favor ingresá un email válido.")
+            return
+        }
 
-        const handleMouseLeave = (e: MouseEvent) => {
-            if (e.clientY <= 0) {
-                setShowExitPopup(true)
+        setStatus("loading")
+        setMessage("")
+
+        try {
+            const res = await fetch("/api/subscribe", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email }),
+            })
+
+            const data = await res.json()
+
+            if (res.ok) {
+                setStatus("success")
+                setMessage("¡Excelente! Te enviamos la guía a tu correo. Podés descargarla abajo directamente.")
+            } else {
+                setStatus("error")
+                setMessage(data.error || "Hubo un problema. Intentá nuevamente.")
             }
-        }
-        document.addEventListener("mouseleave", handleMouseLeave)
-
-        return () => {
-            clearInterval(interval)
-            document.removeEventListener("mouseleave", handleMouseLeave)
-        }
-    }, [])
-
-    const handleDownload = () => {
-        if (email && email.includes("@")) {
-            alert(`¡Gracias! Te enviaremos la guía a: ${email}`)
-            setEmail("")
-            setShowExitPopup(false)
-        } else {
-            alert("Por favor ingresa un email válido")
+        } catch (err) {
+            setStatus("error")
+            setMessage("Ocurrió un error al enviar tu solicitud. Reintentalo en unos momentos.")
         }
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100">
-            {showBanner && (
-                <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 px-4 relative">
-                    <div className="max-w-7xl mx-auto flex items-center justify-center gap-2 text-sm md:text-base">
-                        <Gift className="w-5 h-5 flex-shrink-0" />
-                        <span className="font-semibold">NUEVO: Descarga gratis "El Sistema de 30 Días"</span>
-                        <button className="ml-2 bg-white text-blue-600 px-4 py-1 rounded-full font-bold hover:bg-blue-50 transition">
-                            Obtener Ahora
-                        </button>
-                    </div>
-                    <button
-                        onClick={() => setShowBanner(false)}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:text-blue-100"
-                    >
-                        <X className="w-5 h-5" />
-                    </button>
-                </div>
-            )}
-
+        <div className="min-h-screen bg-[#FEFEFE] dark:bg-[#090A0D] text-[#090A0D] dark:text-[#FEFEFE] font-sans antialiased selection:bg-[#F2884B] selection:text-white">
             <Header />
 
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 md:pt-20 pb-16">
-                <div
-                    className={`transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
-                >
-                    <div className="flex justify-center mb-8">
-                        <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-medium">
-                            <span>✨ Ya han transformado su vida: {userCount.toLocaleString()} personas</span>
-                        </div>
-                    </div>
+            {/* HERO SECTION - DARK OBSIDIAN STYLE FROM PDF */}
+            <section className="relative py-16 md:py-24 bg-[#090A0D] text-[#FEFEFE] overflow-hidden border-b border-white/10">
+                {/* Background Ambient Glow */}
+                <div className="absolute top-1/2 right-0 -translate-y-1/2 w-[500px] h-[500px] bg-[#F2884B]/15 rounded-full blur-[120px] pointer-events-none" />
+                <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-600/10 rounded-full blur-[100px] pointer-events-none" />
 
-                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-center text-slate-900 leading-tight mb-6">
-                        🔥 ¿Cuántas veces has
-                        <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-800">
-                            prometido cambiar...
-                        </span>
-                    </h1>
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+                        
+                        {/* Copy Column */}
+                        <div className="lg:col-span-7 space-y-6">
+                            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F2884B]/15 border border-[#F2884B]/30 text-[#F2884B] text-xs font-bold tracking-widest uppercase">
+                                <Sparkles className="w-3.5 h-3.5" />
+                                <span>Guía Gratuita · PDF</span>
+                            </div>
 
-                    <p className="text-2xl md:text-3xl text-center text-slate-600 mb-12 font-light">
-                        y terminaste igual que siempre?
-                    </p>
+                            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] uppercase">
+                                El Arte de <br />
+                                <span className="text-[#F2884B]">Diseñar Hábitos</span>
+                            </h1>
 
-                    <div className="max-w-3xl mx-auto mb-12">
-                        <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 p-8 md:p-12 border border-slate-100">
-                            <p className="text-lg md:text-xl text-slate-700 mb-6 leading-relaxed">
-                                Ya sabes lo que tienes que hacer.
-                            </p>
-                            <p className="text-base md:text-lg text-slate-500 italic mb-8">
-                                Ir al gym. Leer más. Comer mejor. Ser más productivo.
+                            <p className="text-lg md:text-xl text-slate-300 font-light leading-relaxed max-w-2xl">
+                                Por qué los hábitos más beneficiosos se rompen y cómo construir el próximo con éxito. Sin depender de la motivación: con un diseño que funcione en tu día a día.
                             </p>
 
-                            <div className="bg-red-50 border-l-4 border-red-500 p-6 rounded-r-xl mb-8">
-                                <p className="text-lg font-semibold text-red-900 mb-2">El problema NO es la falta de información.</p>
-                                <p className="text-red-800">Es que tus hábitos actuales te mantienen atrapado en el mismo ciclo.</p>
-                            </div>
+                            {/* Lead Capture Form */}
+                            <div className="pt-4 max-w-xl">
+                                {status === "success" ? (
+                                    <div className="bg-emerald-950/80 border border-emerald-500/50 text-emerald-200 p-6 rounded-2xl space-y-4 animate-in fade-in">
+                                        <div className="flex items-center gap-3 text-emerald-400 font-bold text-lg">
+                                            <CheckCircle2 className="w-6 h-6 shrink-0" />
+                                            ¡Guía enviada con éxito!
+                                        </div>
+                                        <p className="text-sm text-emerald-300/90 leading-relaxed">
+                                            Revisá tu bandeja de entrada en <strong>{email}</strong> (y la carpeta de promociones por las dudas). También podés descargar el PDF directamente haciendo clic acá:
+                                        </p>
+                                        <a
+                                            href="#descarga-directa"
+                                            onClick={(e) => {
+                                                e.preventDefault()
+                                                alert("¡Descargando guía! Gracias por sumarte a Ciclo de Hábitos.")
+                                            }}
+                                            className="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-5 py-3 rounded-xl transition-all shadow-lg text-sm"
+                                        >
+                                            <Download className="w-4 h-4" />
+                                            Descargar PDF Gratis Ahora
+                                        </a>
+                                    </div>
+                                ) : (
+                                    <form onSubmit={handleSubmit} className="space-y-3">
+                                        <label htmlFor="hero-email" className="block text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                                            Tu email
+                                        </label>
+                                        <div className="flex flex-col sm:flex-row gap-3">
+                                            <input
+                                                id="hero-email"
+                                                type="email"
+                                                required
+                                                value={email}
+                                                onChange={(e) => setEmail(e.target.value)}
+                                                placeholder="nombre@email.com"
+                                                className="flex-1 px-5 py-4 rounded-xl bg-white/5 border border-white/15 text-white placeholder:text-slate-500 focus:outline-none focus:border-[#F2884B] focus:ring-1 focus:ring-[#F2884B] text-base transition-all"
+                                            />
+                                            <button
+                                                type="submit"
+                                                disabled={status === "loading"}
+                                                className="bg-[#F2884B] hover:bg-[#e07538] text-white font-bold px-7 py-4 rounded-xl transition-all shadow-lg shadow-[#F2884B]/25 hover:shadow-[#F2884B]/40 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 text-base shrink-0 disabled:opacity-50"
+                                            >
+                                                {status === "loading" ? (
+                                                    <>
+                                                        <Loader2 className="w-5 h-5 animate-spin" />
+                                                        <span>Enviando...</span>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <span>Quiero la guía gratis</span>
+                                                        <ArrowRight className="w-5 h-5" />
+                                                    </>
+                                                )}
+                                            </button>
+                                        </div>
 
-                            <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-l-4 border-green-500 p-6 rounded-r-xl">
-                                <p className="text-lg font-semibold text-green-900 mb-3">Pero aquí está la buena noticia:</p>
-                                <p className="text-green-800 mb-4">No necesitas fuerza de voluntad sobrehumana.</p>
-                                <p className="text-xl font-bold text-green-900">Solo necesitas el SISTEMA correcto.</p>
+                                        {status === "error" && (
+                                            <p className="text-red-400 text-sm flex items-center gap-1.5 pt-1">
+                                                <AlertCircle className="w-4 h-4" />
+                                                {message}
+                                            </p>
+                                        )}
+
+                                        <p className="text-xs text-slate-400 pt-1">
+                                            Te llega al instante a tu correo. Sin spam, y podés darte de baja cuando quieras.
+                                        </p>
+                                    </form>
+                                )}
                             </div>
                         </div>
-                    </div>
 
-                    <div className="max-w-2xl mx-auto mb-8">
-                        <button
-                            onClick={handleDownload}
-                            className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold text-lg md:text-xl py-6 px-8 rounded-2xl shadow-2xl shadow-blue-500/30 transition-all duration-300 hover:scale-105 hover:shadow-blue-500/50 flex items-center justify-center gap-3 group"
-                        >
-                            <span>Descarga Gratis "Los 7 Hábitos Que Cambiarán Tu Vida en 30 Días"</span>
-                            <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
-                        </button>
+                        {/* PDF Cover Book Mockup Visual */}
+                        <div className="lg:col-span-5 flex justify-center lg:justify-end">
+                            <div className="relative group">
+                                <div className="absolute -inset-4 bg-gradient-to-tr from-[#F2884B]/30 to-blue-600/30 rounded-3xl blur-2xl opacity-75 group-hover:opacity-100 transition duration-1000" />
+                                
+                                <div className="relative w-[280px] sm:w-[320px] aspect-[1/1.4] bg-gradient-to-b from-[#16181f] via-[#0d0e14] to-[#1a0f0a] border border-white/15 rounded-2xl shadow-2xl p-6 sm:p-8 flex flex-col justify-between overflow-hidden transform group-hover:-translate-y-1 transition duration-500">
+                                    {/* Book Spine Edge Effect */}
+                                    <div className="absolute top-0 left-0 w-3 h-full bg-gradient-to-r from-white/15 to-transparent border-r border-white/10" />
 
-                        <p className="text-center text-slate-500 mt-4 text-sm">
-                            ✓ Sin tarjeta de crédito • ✓ Descarga instantánea • ✓ 100% Gratis
-                        </p>
-                    </div>
+                                    <div className="space-y-4 pt-2">
+                                        <div className="text-[10px] font-bold tracking-[0.25em] text-slate-400 uppercase">
+                                            Ciclo de Hábitos
+                                        </div>
+                                        <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight uppercase leading-none">
+                                            El Arte de <br />
+                                            <span className="text-[#F2884B]">Diseñar</span> <br />
+                                            Hábitos
+                                        </h2>
+                                    </div>
 
-                    <div className="text-center mb-16">
-                        <Link
-                            href="#problema"
-                            className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold"
-                        >
-                            Ver Cómo Funciona
-                            <ArrowRight className="w-5 h-5" />
-                        </Link>
-                    </div>
+                                    {/* Spiral Habit Symbol */}
+                                    <div className="my-auto flex justify-center py-6">
+                                        <div className="relative w-20 h-20 rounded-full border border-white/20 flex items-center justify-center">
+                                            <div className="w-14 h-14 rounded-full border border-[#F2884B]/60 flex items-center justify-center">
+                                                <div className="w-8 h-8 rounded-full border border-white/40 flex items-center justify-center">
+                                                    <div className="w-2.5 h-2.5 bg-[#F2884B] rounded-full animate-ping" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                    <div className="max-w-4xl mx-auto">
-                        <div className="grid md:grid-cols-3 gap-6">
-                            <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-100 text-center hover:shadow-xl transition-shadow">
-                                <div className="flex justify-center mb-3">
-                                    <Users className="w-8 h-8 text-blue-600" />
+                                    <div className="space-y-4 pb-2">
+                                        <p className="text-[10px] sm:text-[11px] text-slate-400 leading-snug tracking-wider uppercase font-medium">
+                                            Por qué los más beneficiosos se rompen y cómo construir el próximo con éxito.
+                                        </p>
+                                        <div className="flex items-center justify-between border-t border-white/10 pt-3">
+                                            <span className="text-[9px] tracking-widest text-[#F2884B] uppercase font-bold">Guía Práctica</span>
+                                            <span className="text-xs text-white/40 font-mono">PDF</span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="text-3xl font-bold text-slate-900 mb-1">{userCount.toLocaleString()}+</div>
-                                <div className="text-slate-600 text-sm">Vidas transformadas</div>
                             </div>
+                        </div>
 
-                            <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-100 text-center hover:shadow-xl transition-shadow">
-                                <div className="flex justify-center mb-3">
-                                    <TrendingUp className="w-8 h-8 text-green-600" />
-                                </div>
-                                <div className="text-3xl font-bold text-slate-900 mb-1">4.9/5</div>
-                                <div className="text-slate-600 text-sm">⭐⭐⭐⭐⭐ Valoración</div>
-                            </div>
+                    </div>
+                </div>
+            </section>
 
-                            <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-100 text-center hover:shadow-xl transition-shadow">
-                                <div className="flex justify-center mb-3">
-                                    <Target className="w-8 h-8 text-purple-600" />
-                                </div>
-                                <div className="text-3xl font-bold text-slate-900 mb-1">30 días</div>
-                                <div className="text-slate-600 text-sm">Para ver resultados</div>
+            {/* SECTION 1 - NO TE FALTA FUERZA DE VOLUNTAD */}
+            <section className="py-20 md:py-28 bg-[#f8fafc] dark:bg-[#0d0e12] border-b border-slate-200 dark:border-slate-800">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+                        <div className="lg:col-span-5">
+                            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#c85a28] dark:text-[#F2884B] leading-tight tracking-tight uppercase">
+                                No te falta fuerza de voluntad. <br />
+                                <span className="text-slate-900 dark:text-white">Te falta diseño.</span>
+                            </h2>
+                        </div>
+                        <div className="lg:col-span-7 space-y-6 text-lg sm:text-xl text-slate-700 dark:text-slate-300 font-light leading-relaxed">
+                            <p>
+                                La mayoría intenta cambiar sus hábitos apoyándose en la motivación. El problema es que la motivación sube, baja y casi siempre se agota.
+                            </p>
+                            <p>
+                                Lo que sostiene a un hábito es su estructura: <strong className="font-semibold text-slate-900 dark:text-white">una señal clara, una acción pequeña y una recompensa inmediata</strong>. Cuando una de esas piezas falla, el ciclo se rompe, aunque tengas todas las ganas.
+                            </p>
+                            <div className="p-6 bg-orange-500/10 border-l-4 border-[#F2884B] rounded-r-2xl font-semibold text-slate-900 dark:text-white">
+                                En esta guía aprendés a diseñar esa estructura, paso a paso.
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <section id="problema" className="bg-white py-20">
-                <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <h2 className="text-3xl md:text-5xl font-bold text-center text-slate-900 mb-6">
-                        Por qué SIGUES en el mismo lugar
-                        <br />
-                        año tras año
-                    </h2>
+            {/* SECTION 2 - NO SON 21 DÍAS / 66 DÍAS STAT */}
+            <section className="py-20 md:py-28 bg-white dark:bg-[#090A0D] border-b border-slate-200 dark:border-slate-800">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+                        <div className="lg:col-span-5 bg-[#f8fafc] dark:bg-[#13151c] p-8 sm:p-12 rounded-3xl border border-slate-200 dark:border-slate-800 text-center lg:text-left shadow-sm">
+                            <div className="text-xs font-bold tracking-widest text-[#F2884B] uppercase mb-2">
+                                No son 21 días
+                            </div>
+                            <div className="text-7xl sm:text-8xl font-black text-[#ba471b] dark:text-[#F2884B] leading-none mb-3">
+                                66
+                            </div>
+                            <div className="text-xl font-bold text-slate-900 dark:text-white">
+                                días en promedio
+                            </div>
+                        </div>
 
-                    <div className="space-y-4 mb-12">
+                        <div className="lg:col-span-7 space-y-6 text-lg text-slate-600 dark:text-slate-300 font-light leading-relaxed">
+                            <p>
+                                El famoso "un hábito se forma en 21 días" no salió de un estudio: nació de una observación clínica del cirujano Maxwell Maltz en los años 60 sobre cuánto tardaban sus pacientes en acostumbrarse a su nuevo aspecto.
+                            </p>
+                            <p>
+                                La investigación rigurosa de <strong className="font-semibold text-slate-900 dark:text-white">Phillippa Lally (University College London)</strong> siguió a 96 personas durante 12 semanas y encontró que un hábito tarda en promedio <strong className="font-semibold text-slate-900 dark:text-white">66 días</strong> en volverse automático.
+                            </p>
+                            <p className="text-base sm:text-lg italic text-slate-500 dark:text-slate-400">
+                                En la guía te explico qué significa eso para vos y cómo estructurar tu proceso para no abandonar en el camino.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* SECTION 3 - QUÉ HAY ADENTRO (6 MODULES GRID) */}
+            <section className="py-20 md:py-28 bg-[#f8fafc] dark:bg-[#0d0e12] border-b border-slate-200 dark:border-slate-800">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
+                        <div className="text-xs font-bold tracking-widest text-[#F2884B] uppercase">
+                            Qué hay adentro
+                        </div>
+                        <h2 className="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight uppercase">
+                            Todo lo que necesitás para diseñar tu próximo hábito
+                        </h2>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {[
-                            "No es porque seas flojo",
-                            "No es porque no tengas fuerza de voluntad",
-                            "No es porque 'no seas disciplinado'",
-                        ].map((text, idx) => (
-                            <div key={idx} className="flex items-center gap-3 bg-red-50 p-4 rounded-xl border border-red-100">
-                                <X className="w-6 h-6 text-red-500 flex-shrink-0" />
-                                <p className="text-lg text-red-900 font-medium">{text}</p>
+                            {
+                                num: "01",
+                                title: "El mito de los 21 días",
+                                desc: "De dónde salió esa cifra y qué dice la investigación sobre el tiempo real que lleva automatizar un hábito.",
+                            },
+                            {
+                                num: "02",
+                                title: "El bucle que funciona",
+                                desc: "Señal, rutina y recompensa: las tres piezas que hacen que un hábito se sostenga solo.",
+                            },
+                            {
+                                num: "03",
+                                title: "La versión mínima",
+                                desc: "Cómo reducir cualquier hábito a la acción más pequeña que podés repetir incluso en días difíciles.",
+                            },
+                            {
+                                num: "04",
+                                title: "Las 4 semanas del hábito",
+                                desc: "Qué esperar en cada etapa para no frustrarte cuando aparecen los baches inevitables.",
+                            },
+                            {
+                                num: "05",
+                                title: "Por qué los hábitos fallan",
+                                desc: "Cómo detectar qué pieza del diseño se rompió y ajustarla sin empezar de cero.",
+                            },
+                            {
+                                num: "06",
+                                title: "Tu hoja de diseño",
+                                desc: "Una plantilla editable para aplicar el método a un hábito concreto, más tres reglas para que perdure.",
+                            },
+                        ].map((module, idx) => (
+                            <div
+                                key={idx}
+                                className="bg-white dark:bg-[#13151c] p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:border-[#F2884B]/40 transition-all group flex flex-col justify-between"
+                            >
+                                <div className="space-y-4">
+                                    <span className="text-3xl font-black text-[#F2884B] tracking-wider block">
+                                        {module.num}
+                                    </span>
+                                    <h3 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-[#F2884B] transition-colors">
+                                        {module.title}
+                                    </h3>
+                                    <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed font-light">
+                                        {module.desc}
+                                    </p>
+                                </div>
                             </div>
                         ))}
                     </div>
-
-                    <div className="bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-3xl p-8 md:p-12 mb-8">
-                        <p className="text-2xl font-bold mb-6">
-                            El verdadero problema es que estás luchando contra el CICLO DE HÁBITOS equivocado.
-                        </p>
-
-                        <div className="space-y-4 text-lg text-slate-300">
-                            <p>Cada mañana que presionas "snooze"...</p>
-                            <p>Cada noche que prometes "mañana empiezo"...</p>
-                            <p>Cada vez que abandonas a la semana...</p>
-                        </div>
-
-                        <p className="text-xl font-semibold mt-8 text-blue-300">
-                            Estás reforzando el ciclo que te mantiene atrapado.
-                        </p>
-                    </div>
-
-                    <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl p-8 border-2 border-green-200">
-                        <p className="text-2xl font-bold text-green-900 mb-4">
-                            La buena noticia: Los ciclos de hábitos se pueden ROMPER y RECONSTRUIR.
-                        </p>
-                        <p className="text-xl text-green-800">Y es más fácil de lo que piensas.</p>
-                    </div>
                 </div>
             </section>
 
-            <section className="py-20 bg-gradient-to-br from-blue-50 to-slate-100">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center mb-12">
-                        <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-4">El Sistema de Ciclo de Hábitos:</h2>
-                        <p className="text-xl md:text-2xl text-slate-600">Tu mapa para escapar del ciclo de la procrastinación</p>
-                    </div>
+            {/* SECTION 4 - UN ADELANTO: EL BUCLE QUE FUNCIONA */}
+            <section className="py-20 md:py-28 bg-[#090A0D] text-white border-b border-white/10 relative overflow-hidden">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#F2884B]/10 rounded-full blur-[140px] pointer-events-none" />
 
-                    <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12 mb-12">
-                        <p className="text-xl text-center text-slate-700 mb-12 max-w-3xl mx-auto">
-                            En lugar de depender de motivación que desaparece...
-                            <br />
-                            <span className="font-bold text-slate-900">Construyes SISTEMAS que trabajan para ti 24/7.</span>
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
+                        <div className="text-xs font-bold tracking-widest text-[#F2884B] uppercase">
+                            Un Adelanto
+                        </div>
+                        <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight uppercase">
+                            El Bucle que Funciona
+                        </h2>
+                        <p className="text-lg text-slate-400 font-light">
+                            Todo hábito duradero se sostiene sobre tres piezas. Cuando encajan, el hábito se vuelve fácil de mantener y difícil de romper.
                         </p>
-
-                        <div className="grid md:grid-cols-2 gap-6">
-                            {[
-                                {
-                                    title: "Método de los Pequeños Cambios Compuestos",
-                                    desc: "Resultados exponenciales en 30 días",
-                                },
-                                {
-                                    title: "Framework Anti-Procrastinación",
-                                    desc: "Diseñado para personas ocupadas",
-                                },
-                                {
-                                    title: "Estrategias de Fortaleza Emocional",
-                                    desc: "Para los días difíciles que SIEMPRE llegan",
-                                },
-                                {
-                                    title: "Plantillas Plug & Play",
-                                    desc: "Empieza hoy, sin excusas",
-                                },
-                            ].map((feature, idx) => (
-                                <div
-                                    key={idx}
-                                    className="flex gap-4 items-start p-6 rounded-2xl hover:bg-blue-50 transition-colors group border border-slate-100"
-                                >
-                                    <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0 group-hover:scale-110 transition-transform" />
-                                    <div>
-                                        <h3 className="font-bold text-lg text-slate-900 mb-2">{feature.title}</h3>
-                                        <p className="text-slate-600">{feature.desc}</p>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-
-                        <div className="mt-12 text-center">
-                            <button
-                                onClick={handleDownload}
-                                className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold text-lg px-10 py-5 rounded-2xl transition-all hover:scale-105 inline-flex items-center gap-3 shadow-xl"
-                            >
-                                <span>Accede Gratis a la Guía Completa</span>
-                                <ArrowRight className="w-5 h-5" />
-                            </button>
-                        </div>
                     </div>
-                </div>
-            </section>
-
-            <section className="py-20 bg-white">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <h2 className="text-3xl md:text-5xl font-bold text-center text-slate-900 mb-4">
-                        Personas reales. Resultados reales.
-                    </h2>
-                    <p className="text-xl text-center text-slate-600 mb-16">
-                        Lee lo que dicen quienes ya transformaron sus vidas
-                    </p>
 
                     <div className="grid md:grid-cols-3 gap-8">
                         {[
                             {
-                                text: "Después de 10 años intentando ser constante con el gym, finalmente lo logré. El truco estaba en el sistema de hábitos encadenados. 90 días sin fallar.",
-                                name: "María G.",
-                                location: "México",
+                                step: "1",
+                                name: "Señal",
+                                desc: "El momento que dispara el hábito: algo que ya pasa en tu día a día.",
+                                quote: '"Después de lavarme los dientes..."',
                             },
                             {
-                                text: "Dejé de procrastinar mi proyecto. Lo terminé en 3 semanas usando el método de micro-tareas. Cambió todo.",
-                                name: "Carlos R.",
-                                location: "España",
+                                step: "2",
+                                name: "Rutina",
+                                desc: "La acción que querés convertir en hábito, clara y ridículamente pequeña.",
+                                quote: '"...respiro profundo 3 veces."',
                             },
                             {
-                                text: "Pensaba que era mi personalidad ser desorganizado. Ahora tengo 5 hábitos sólidos que mantienen mi vida en orden.",
-                                name: "Andrea M.",
-                                location: "Colombia",
+                                step: "3",
+                                name: "Recompensa",
+                                desc: "El cierre inmediato que hace que tu cerebro quiera repetirlo mañana.",
+                                quote: '"Lo marco como hecho."',
                             },
-                        ].map((testimonial, idx) => (
+                        ].map((card, idx) => (
                             <div
                                 key={idx}
-                                className="bg-slate-50 rounded-2xl p-6 border border-slate-200 hover:shadow-lg transition-shadow"
+                                className="bg-[#13151c] p-8 rounded-3xl border border-white/10 hover:border-[#F2884B]/50 transition-all space-y-6 relative flex flex-col justify-between"
                             >
-                                <div className="text-yellow-500 mb-4">⭐⭐⭐⭐⭐</div>
-                                <p className="text-slate-700 mb-6 italic">"{testimonial.text}"</p>
-                                <div className="border-t border-slate-200 pt-4">
-                                    <p className="font-bold text-slate-900">{testimonial.name}</p>
-                                    <p className="text-sm text-slate-500">{testimonial.location}</p>
+                                <div className="space-y-4">
+                                    <div className="w-10 h-10 rounded-full bg-[#F2884B]/20 text-[#F2884B] font-bold flex items-center justify-center text-sm border border-[#F2884B]/30">
+                                        {card.step}
+                                    </div>
+                                    <h3 className="text-2xl font-bold text-white">
+                                        {card.name}
+                                    </h3>
+                                    <p className="text-slate-400 text-sm leading-relaxed font-light">
+                                        {card.desc}
+                                    </p>
+                                </div>
+                                <div className="pt-4 border-t border-white/10 text-[#F2884B] italic text-sm font-medium">
+                                    {card.quote}
                                 </div>
                             </div>
                         ))}
                     </div>
-
-                    <div className="mt-12 text-center">
-                        <button
-                            onClick={handleDownload}
-                            className="bg-slate-900 hover:bg-slate-800 text-white font-bold text-lg px-10 py-5 rounded-2xl transition-all hover:scale-105 inline-flex items-center gap-3"
-                        >
-                            <span>Empieza Tu Transformación Ahora</span>
-                            <ArrowRight className="w-5 h-5" />
-                        </button>
-                    </div>
                 </div>
             </section>
 
-            <section className="py-20 bg-gradient-to-br from-blue-600 to-blue-800 text-white">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    <h2 className="text-3xl md:text-5xl font-bold mb-6">
-                        Tu vida dentro de 30 días puede ser COMPLETAMENTE diferente
+            {/* SECTION 5 - FINAL CTA FORM */}
+            <section className="py-20 md:py-28 bg-gradient-to-b from-[#090A0D] to-[#12141c] text-white relative">
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
+                    <h2 className="text-3xl sm:text-5xl font-extrabold uppercase tracking-tight leading-tight">
+                        Empezá pequeño. <br />
+                        <span className="text-[#F2884B]">Empezá esta semana.</span>
                     </h2>
-                    <p className="text-2xl mb-4 font-light">O puedes seguir igual.</p>
-                    <p className="text-xl mb-12">
-                        La diferencia está en la decisión que tomes <span className="font-bold">HOY</span>.
+
+                    <p className="text-lg sm:text-xl text-slate-300 font-light max-w-2xl mx-auto leading-relaxed">
+                        Bajate la guía, completá la hoja de diseño con un solo hábito y dale estructura a eso que tenés en mente hace tiempo.
                     </p>
 
-                    <div className="bg-white text-slate-900 rounded-3xl p-8 md:p-12 shadow-2xl mb-8">
-                        <div className="flex items-center justify-center gap-3 mb-6">
-                            <Gift className="w-10 h-10 text-blue-600" />
-                            <h3 className="text-2xl md:text-3xl font-bold">Descarga GRATIS:</h3>
-                        </div>
-
-                        <p className="text-xl md:text-2xl font-bold text-slate-800 mb-8">
-                            "Guía Completa: El Sistema de los 30 Días para Construir Hábitos Inquebrantables"
-                        </p>
-
-                        <div className="grid md:grid-cols-2 gap-4 mb-8 text-left">
-                            {[
-                                "El framework completo paso a paso",
-                                "Plantillas de seguimiento diario",
-                                "Checklist de implementación inmediata",
-                                "Casos de estudio reales",
-                            ].map((item, idx) => (
-                                <div key={idx} className="flex items-center gap-3">
-                                    <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0" />
-                                    <span className="text-slate-700">{item}</span>
-                                </div>
-                            ))}
-                        </div>
-
-                        <p className="text-slate-600 mb-8">
-                            No necesitas tu tarjeta de crédito.
-                            <br />
-                            Solo tu email y 30 días de compromiso contigo mismo.
-                        </p>
-
-                        <div className="max-w-md mx-auto mb-6">
-                            <div className="flex flex-col sm:flex-row gap-3">
-                                <input
-                                    type="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    placeholder="tu@email.com"
-                                    className="flex-1 px-6 py-4 rounded-xl border-2 border-slate-200 focus:border-blue-500 focus:outline-none text-slate-900"
-                                />
+                    <div className="bg-[#181a24] p-8 sm:p-12 rounded-3xl border border-white/15 shadow-2xl max-w-2xl mx-auto">
+                        {status === "success" ? (
+                            <div className="space-y-4 text-emerald-300">
+                                <CheckCircle2 className="w-12 h-12 text-emerald-400 mx-auto" />
+                                <h3 className="text-2xl font-bold text-white">¡Guía Lista para Descargar!</h3>
+                                <p className="text-sm text-slate-300">
+                                    Enviamos la copia a tu casilla de correo. Podés abrir tu guía en PDF en este botón:
+                                </p>
                                 <button
-                                    onClick={handleDownload}
-                                    className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold px-8 py-4 rounded-xl transition-all hover:scale-105"
+                                    onClick={() => alert("¡Descargando guía en PDF! Gracias por confiar en Ciclo de Hábitos.")}
+                                    className="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-8 py-4 rounded-xl transition-all shadow-lg inline-flex items-center gap-2 text-base"
                                 >
-                                    Descargar
+                                    <Download className="w-5 h-5" />
+                                    Descargar Guía PDF
                                 </button>
                             </div>
-                        </div>
+                        ) : (
+                            <form onSubmit={handleSubmit} className="space-y-4 text-left">
+                                <label htmlFor="footer-email" className="block text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                                    Tu email
+                                </label>
+                                <div className="flex flex-col sm:flex-row gap-3">
+                                    <input
+                                        id="footer-email"
+                                        type="email"
+                                        required
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        placeholder="nombre@email.com"
+                                        className="flex-1 px-5 py-4 rounded-xl bg-white/5 border border-white/15 text-white placeholder:text-slate-500 focus:outline-none focus:border-[#F2884B] focus:ring-1 focus:ring-[#F2884B] text-base"
+                                    />
+                                    <button
+                                        type="submit"
+                                        disabled={status === "loading"}
+                                        className="bg-[#F2884B] hover:bg-[#e07538] text-white font-bold px-8 py-4 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 shrink-0 disabled:opacity-50"
+                                    >
+                                        {status === "loading" ? (
+                                            <Loader2 className="w-5 h-5 animate-spin" />
+                                        ) : (
+                                            <>
+                                                <span>Descargar la guía gratis</span>
+                                                <ArrowRight className="w-5 h-5" />
+                                            </>
+                                        )}
+                                    </button>
+                                </div>
 
-                        <div className="flex items-center justify-center gap-2 text-sm text-slate-500">
-                            <Clock className="w-4 h-4" />
-                            <span>⏰ Más de {recentDownloads} personas descargaron esto en las últimas 24h</span>
-                        </div>
+                                {status === "error" && (
+                                    <p className="text-red-400 text-sm flex items-center gap-1.5 pt-1">
+                                        <AlertCircle className="w-4 h-4" />
+                                        {message}
+                                    </p>
+                                )}
+
+                                <p className="text-xs text-slate-400 text-center sm:text-left pt-2">
+                                    Sin spam. Podés darte de baja cuando quieras.
+                                </p>
+                            </form>
+                        )}
                     </div>
                 </div>
             </section>
 
             <Footer />
-
-            {showExitPopup && (
-                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-3xl p-8 max-w-md relative">
-                        <button
-                            onClick={() => setShowExitPopup(false)}
-                            className="absolute top-4 right-4 text-slate-400 hover:text-slate-600"
-                        >
-                            <X className="w-6 h-6" />
-                        </button>
-
-                        <AlertCircle className="w-16 h-16 text-blue-600 mx-auto mb-4" />
-                        <h3 className="text-2xl font-bold text-slate-900 mb-4 text-center">
-                            ❗ ESPERA - ¿Te vas sin tu guía gratuita?
-                        </h3>
-                        <p className="text-slate-600 mb-6 text-center">
-                            Antes de irte, descarga:
-                            <br />
-                            <span className="font-semibold">"5 Hábitos Que Puedes Empezar HOY (Y Ver Resultados Esta Semana)"</span>
-                        </p>
-
-                        <div className="space-y-3">
-                            <input
-                                type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                placeholder="Tu mejor email"
-                                className="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-blue-500 focus:outline-none"
-                            />
-                            <button
-                                onClick={handleDownload}
-                                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold py-3 rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all"
-                            >
-                                Descargar Ahora
-                            </button>
-                        </div>
-
-                        <p className="text-xs text-slate-400 mt-4 text-center">
-                            P.D. Odiamos el spam tanto como tú. Solo contenido de valor, sin relleno.
-                        </p>
-                    </div>
-                </div>
-            )}
-
-            <div className="fixed bottom-6 right-6 z-40">
-                <div className="relative group">
-                    <button className="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-4 shadow-2xl transition-all hover:scale-110">
-                        <Brain className="w-6 h-6" />
-                    </button>
-                    <div className="absolute bottom-full right-0 mb-2 bg-slate-900 text-white px-4 py-2 rounded-lg text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                        ¿No sabes por dónde empezar?
-                    </div>
-                </div>
-            </div>
-
-            <Chatbot />
         </div>
     )
 }
