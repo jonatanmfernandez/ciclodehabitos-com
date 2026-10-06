@@ -101,9 +101,24 @@ export async function POST(request: Request) {
             const existing = await resend.contacts.get({ email, audienceId });
 
             if (existing.data && existing.data.unsubscribed === false) {
-                // Suscriptor activo: no re-disparamos la secuencia de bienvenida.
+                // Suscriptor activo: le reenviamos la guía (día 0) pero no
+                // re-disparamos la secuencia de bienvenida.
+                const [guide] = welcomeSequence(buildUnsubscribeUrl(email));
+                const { error } = await resend.emails.send(
+                    {
+                        from: FROM,
+                        to: email,
+                        subject: guide.subject,
+                        react: guide.react,
+                        tags: [{ name: 'origen', value: origen }],
+                    },
+                    { idempotencyKey: `guide-resend-${email}` }
+                );
+                if (error) {
+                    console.error(`Error reenviando la guía a ${email}:`, error);
+                }
                 return NextResponse.json(
-                    { message: "Ya estabas suscrito. ¡Gracias por estar ahí!", pdfUrl: GUIDE_PDF_URL },
+                    { message: "Ya estabas suscrito. Te reenviamos la guía a tu correo.", pdfUrl: GUIDE_PDF_URL },
                     { status: 200 }
                 );
             }
