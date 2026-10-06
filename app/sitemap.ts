@@ -8,7 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '',
     '/blog',
     '/directorio-ia',
-    '/landing',
+    '/guia',
     '/about',
     '/contact',
     '/privacidad',

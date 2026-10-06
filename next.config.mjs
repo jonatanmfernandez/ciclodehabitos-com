@@ -22,17 +22,9 @@ const nextConfig = {
     '/blog/[slug]': ['./content/blog/**/*'],
   },
   allowedDevOrigins: ["192.168.1.37"],
-  // guia.ciclodehabitos.com (links de Pinterest) sirve la landing del lead magnet.
-  async rewrites() {
-    return {
-      beforeFiles: [
-        {
-          source: '/',
-          has: [{ type: 'host', value: 'guia.ciclodehabitos.com' }],
-          destination: '/landing',
-        },
-      ],
-    }
+  // La landing del lead magnet se mudó a /guia; /landing queda enlazada en emails ya enviados.
+  async redirects() {
+    return [{ source: '/landing', destination: '/guia', permanent: true }]
   },
 }
 

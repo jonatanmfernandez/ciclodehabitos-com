@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     title: "El arte de diseñar hábitos · Guía gratuita · Ciclo de Hábitos",
     description:
         "Guía gratuita en PDF: por qué los hábitos más beneficiosos se rompen y cómo diseñar el próximo para que dure. Basada en ciencia del comportamiento.",
-    alternates: { canonical: "https://ciclodehabitos.com/landing" },
+    alternates: { canonical: "https://ciclodehabitos.com/guia" },
     openGraph: {
         type: "website",
         title: "El arte de diseñar hábitos · Guía gratuita",
