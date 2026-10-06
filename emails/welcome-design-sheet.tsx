@@ -38,7 +38,7 @@ export default function WelcomeDesignSheetEmail({ unsubscribeUrl }: WelcomeDesig
             <Text style={text}>
                 Un abrazo,
                 <br />
-                <strong>Jonatan Fernandez</strong> — Ciclo de Hábitos
+                <strong>Joni</strong> — Ciclo de Hábitos
             </Text>
         </EmailLayout>
     );

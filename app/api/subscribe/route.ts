@@ -24,7 +24,7 @@ const EmailSchema = z.object({
     origen: z.string().optional(),
 });
 
-const FROM = 'Jonatan de Ciclo de Hábitos <hola@ciclodehabitos.com>';
+const FROM = 'Joni de Ciclo de Hábitos <hola@ciclodehabitos.com>';
 const DAY_MS = 24 * 60 * 60 * 1000;
 
 type WelcomeStep = { delayDays: number; subject: string; react: ReactElement };

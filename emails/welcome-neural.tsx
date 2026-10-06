@@ -64,7 +64,7 @@ export default function WelcomeNeuralEmail({ unsubscribeUrl, neuralUrl, price, d
             <Text style={text}>
                 Un abrazo,
                 <br />
-                <strong>Jonatan Fernandez</strong> — Ciclo de Hábitos
+                <strong>Joni</strong> — Ciclo de Hábitos
             </Text>
         </EmailLayout>
     );
