@@ -4,38 +4,32 @@ import { EmailLayout, button, buttonContainer, heading, highlight, text } from "
 
 interface WelcomeLeadMagnetEmailProps {
     unsubscribeUrl: string;
+    pdfUrl: string;
 }
 
-// Email 1 (Día 0): Entrega de la guía PDF "El Arte de Diseñar Hábitos" + primera interacción.
-export default function WelcomeLeadMagnetEmail({ unsubscribeUrl }: WelcomeLeadMagnetEmailProps) {
+// Email 1 (Día 0): Entrega de la guía PDF "El arte de diseñar hábitos" + pedido de respuesta.
+export default function WelcomeLeadMagnetEmail({ unsubscribeUrl, pdfUrl }: WelcomeLeadMagnetEmailProps) {
     return (
-        <EmailLayout preview="Acá está tu guía gratis: El Arte de Diseñar Hábitos 🎁" unsubscribeUrl={unsubscribeUrl}>
-            <Heading style={heading}>¡Acá tenés tu guía gratis!</Heading>
+        <EmailLayout preview="Acá tenés tu guía. Leela en 15 minutos y aplicala esta semana." unsubscribeUrl={unsubscribeUrl}>
+            <Heading style={heading}>¡Acá tenés tu guía!</Heading>
             <Text style={text}>
-                Gracias por sumarte a <strong>Ciclo de Hábitos</strong>. Acabás de dar el paso más importante: dejar de confiar en la motivación vacía y empezar a diseñar tu vida.
-            </Text>
-            <Text style={text}>
-                Tu copia de <strong>"El Arte de Diseñar Hábitos: Por qué los hábitos más beneficiosos se rompen y cómo construir el próximo con éxito"</strong> ya está lista:
+                Acá tenés <strong>El arte de diseñar hábitos</strong>. Está pensada para leerse en 15 minutos y aplicarse en uno solo de tus hábitos esta misma semana.
             </Text>
             <Section style={buttonContainer}>
-                <Link
-                    style={button}
-                    href="https://ciclodehabitos.com/landing"
-                >
-                    📥 Descargar Guía en PDF
+                <Link style={button} href={pdfUrl}>
+                    Descargar la guía
                 </Link>
             </Section>
-            
-            <Text style={highlight}>
-                💬 Una pregunta rápida para empezar hoy mismo:
-                <br /><br />
-                <strong>¿Cuál es el hábito concreto que querés construir esta semana?</strong>
-                <br /><br />
-                Respondé directamente a este correo con una sola frase (ej: <em>"quiero leer 10 minutos por día"</em> o <em>"quiero hacer ejercicio por la mañana"</em>). Leo y respondo cada mensaje.
-            </Text>
-
             <Text style={text}>
-                En los próximos 10 días te voy a compartir 4 ideas breves respaldadas por ciencia del comportamiento para acompañarte a pasar de "bajé una guía" a construir tu sistema completo.
+                Un consejo antes de abrirla: no intentes cambiar cinco cosas a la vez. Elegí un solo hábito y llegá hasta la página 7, donde está la hoja de diseño.
+            </Text>
+            <Text style={highlight}>
+                Una pregunta: ¿qué hábito querés instalar?
+                <br /><br />
+                Respondé este correo con una línea. Leo todas las respuestas y me ayudan a escribir contenido que te sirva de verdad.
+            </Text>
+            <Text style={text}>
+                En unos días te escribo con lo que dice la investigación sobre cuánto tarda realmente un hábito en volverse automático.
             </Text>
             <Text style={text}>
                 Un abrazo,

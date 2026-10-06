@@ -1,33 +1,69 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { Resend } from 'resend';
+import type { ReactElement } from 'react';
 import WelcomeLeadMagnetEmail from '@/emails/welcome-lead-magnet';
 import WelcomeScience66Email from '@/emails/welcome-science-66';
-import WelcomeLoopDesignEmail from '@/emails/welcome-loop-design';
-import WelcomeEnvironmentEmail from '@/emails/welcome-environment';
-import WelcomeCompleteSystemEmail from '@/emails/welcome-complete-system';
-import { buildUnsubscribeUrl } from '@/lib/newsletter';
+import WelcomeDesignSheetEmail from '@/emails/welcome-design-sheet';
+import WelcomeSystemEmail from '@/emails/welcome-system';
+import WelcomeNeuralEmail from '@/emails/welcome-neural';
+import WelcomeLastCallEmail from '@/emails/welcome-last-call';
+import {
+    GUIDE_PDF_URL,
+    NEURAL_DISCOUNT_CODE,
+    NEURAL_PRICE,
+    buildUnsubscribeUrl,
+    neuralUrl,
+} from '@/lib/newsletter';
 
 const EmailSchema = z.object({
     email: z.string().email({ message: "Por favor ingresa un correo electrónico válido" }),
+    // Honeypot anti-bots: el campo está oculto en la landing, una persona nunca lo completa.
+    empresa: z.string().optional(),
+    // Origen del suscriptor (utm_source en la landing, ej. "pinterest"). Los formularios del blog no lo mandan.
+    origen: z.string().optional(),
 });
 
 const FROM = 'Jonatan de Ciclo de Hábitos <hola@ciclodehabitos.com>';
 const DAY_MS = 24 * 60 * 60 * 1000;
 
-// Secuencia de bienvenida de 10 días para el Lead Magnet (PDF: El Arte de Diseñar Hábitos)
-// Día 0: Entrega del PDF + gancho de respuesta
-// Día 2: Mito de los 21 días vs 66 días + Versión Mínima
-// Día 4: El bucle de 3 piezas (Señal, Rutina, Recompensa)
-// Día 7: El diseño de entorno le gana a la disciplina
-// Día 10: Pasando al sistema completo (Conversión a Ciclo de Hábitos)
-const WELCOME_SEQUENCE = [
-    { delayDays: 0, subject: 'Acá está tu guía: El Arte de Diseñar Hábitos 🎁', render: WelcomeLeadMagnetEmail },
-    { delayDays: 2, subject: 'Por qué el 92% fracasa el día 14 (y la regla de los 66 días)', render: WelcomeScience66Email },
-    { delayDays: 4, subject: 'Las 3 piezas que hacen que un hábito se sostenga solo', render: WelcomeLoopDesignEmail },
-    { delayDays: 7, subject: 'El diseño de entorno le gana a la disciplina (siempre)', render: WelcomeEnvironmentEmail },
-    { delayDays: 10, subject: 'De la guía al sistema completo: Tu mapa de 30 días 🚀', render: WelcomeCompleteSystemEmail },
-];
+type WelcomeStep = { delayDays: number; subject: string; react: ReactElement };
+
+// Secuencia de bienvenida de 10 días para el Lead Magnet (PDF: El arte de diseñar hábitos)
+// Día 0: Entrega del PDF + "respondé con el hábito que querés crear"
+// Día 2: El mito de los 21 días vs. los 66 días
+// Día 4: La hoja de diseño completa con un ejemplo
+// Día 6: Un hábito solo no alcanza (el problema que resuelve NEURAL System)
+// Día 8: NEURAL System por dentro (oferta)
+// Día 10: Último día del precio especial (solo si hay código de descuento)
+function welcomeSequence(unsubscribeUrl: string): WelcomeStep[] {
+    const steps: WelcomeStep[] = [
+        { delayDays: 0, subject: 'Tu guía: El arte de diseñar hábitos', react: WelcomeLeadMagnetEmail({ unsubscribeUrl, pdfUrl: GUIDE_PDF_URL }) },
+        { delayDays: 2, subject: 'El número que cambia cómo ves tus hábitos', react: WelcomeScience66Email({ unsubscribeUrl }) },
+        { delayDays: 4, subject: 'Un hábito diseñado de punta a punta', react: WelcomeDesignSheetEmail({ unsubscribeUrl }) },
+        { delayDays: 6, subject: 'Un hábito solo no alcanza', react: WelcomeSystemEmail({ unsubscribeUrl }) },
+        {
+            delayDays: 8,
+            subject: 'Te muestro NEURAL System por dentro',
+            react: WelcomeNeuralEmail({ unsubscribeUrl, neuralUrl: neuralUrl('dia8'), price: NEURAL_PRICE, discountCode: NEURAL_DISCOUNT_CODE }),
+        },
+    ];
+    if (NEURAL_DISCOUNT_CODE) {
+        steps.push({
+            delayDays: 10,
+            subject: 'Último día del precio especial',
+            react: WelcomeLastCallEmail({ unsubscribeUrl, neuralUrl: neuralUrl('dia10'), discountCode: NEURAL_DISCOUNT_CODE }),
+        });
+    }
+    return steps;
+}
+
+function tagValue(origen: string | undefined): string {
+    // Resend solo acepta letras, números, _ y - en los tags.
+    return (origen || 'blog').slice(0, 60).replace(/[^a-zA-Z0-9_-]/g, '_') || 'blog';
+}
+
+const SUCCESS = { message: "¡Suscripción exitosa! Revisa tu correo pronto.", pdfUrl: GUIDE_PDF_URL };
 
 export async function POST(request: Request) {
     try {
@@ -41,16 +77,19 @@ export async function POST(request: Request) {
             );
         }
 
+        if (result.data.empresa) {
+            // Bot: fingimos éxito y no hacemos nada.
+            return NextResponse.json(SUCCESS, { status: 200 });
+        }
+
         const email = result.data.email.toLowerCase();
+        const origen = tagValue(result.data.origen);
 
         const resendApiKey = process.env.RESEND_API_KEY;
         if (!resendApiKey) {
             // Entorno sin clave (dev local): no fallamos el formulario.
             console.warn('RESEND_API_KEY no configurada; suscripción no procesada para', email);
-            return NextResponse.json(
-                { message: "¡Suscripción exitosa! Revisa tu correo pronto." },
-                { status: 200 }
-            );
+            return NextResponse.json(SUCCESS, { status: 200 });
         }
 
         const resend = new Resend(resendApiKey);
@@ -64,7 +103,7 @@ export async function POST(request: Request) {
             if (existing.data && existing.data.unsubscribed === false) {
                 // Suscriptor activo: no re-disparamos la secuencia de bienvenida.
                 return NextResponse.json(
-                    { message: "Ya estabas suscrito. ¡Gracias por estar ahí!" },
+                    { message: "Ya estabas suscrito. ¡Gracias por estar ahí!", pdfUrl: GUIDE_PDF_URL },
                     { status: 200 }
                 );
             }
@@ -89,7 +128,7 @@ export async function POST(request: Request) {
 
         const unsubscribeUrl = buildUnsubscribeUrl(email);
 
-        for (const step of WELCOME_SEQUENCE) {
+        for (const step of welcomeSequence(unsubscribeUrl)) {
             // Clave de idempotencia: si el formulario se reenvía (doble clic,
             // reintento, o una segunda suscripción antes de que Resend expire la
             // clave a las 24 h) el envío duplicado se descarta en lugar de mandar
@@ -100,10 +139,11 @@ export async function POST(request: Request) {
                     from: FROM,
                     to: email,
                     subject: step.subject,
-                    react: step.render({ unsubscribeUrl }),
+                    react: step.react,
                     scheduledAt: step.delayDays > 0
                         ? new Date(Date.now() + step.delayDays * DAY_MS).toISOString()
                         : undefined,
+                    tags: [{ name: 'origen', value: origen }],
                 },
                 { idempotencyKey }
             );
@@ -112,10 +152,7 @@ export async function POST(request: Request) {
             }
         }
 
-        return NextResponse.json(
-            { message: "¡Suscripción exitosa! Revisa tu correo pronto." },
-            { status: 200 }
-        );
+        return NextResponse.json(SUCCESS, { status: 200 });
     } catch (error) {
         console.error('Subscription Fatal Error:', error);
         return NextResponse.json(

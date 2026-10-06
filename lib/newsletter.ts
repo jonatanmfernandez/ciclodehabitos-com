@@ -27,3 +27,18 @@ export function buildUnsubscribeUrl(email: string): string {
     if (!token) return `${SITE_URL}/contact`;
     return `${SITE_URL}/api/unsubscribe?email=${encodeURIComponent(email.toLowerCase())}&token=${token}`;
 }
+
+// Lead magnet: guía "El arte de diseñar hábitos". PDF_URL permite moverla a otro hosting.
+export const GUIDE_PDF_URL = process.env.PDF_URL || `${SITE_URL}/el-arte-de-disenar-habitos.pdf`;
+
+// NEURAL System (Gumroad). Con NEURAL_DISCOUNT_CODE definido, los correos del día 8
+// y 10 ofrecen el precio especial y el link ya aplica el código; sin él, el día 8
+// muestra el precio normal y el día 10 no se envía.
+export const NEURAL_PRICE = 'USD 19';
+export const NEURAL_DISCOUNT_CODE = process.env.NEURAL_DISCOUNT_CODE?.trim() || null;
+
+export function neuralUrl(content: string): string {
+    const base = 'https://jonfernandex.gumroad.com/l/neural-system-board';
+    const path = NEURAL_DISCOUNT_CODE ? `${base}/${encodeURIComponent(NEURAL_DISCOUNT_CODE)}` : base;
+    return `${path}?utm_source=email&utm_medium=email&utm_campaign=secuencia-guia&utm_content=${content}`;
+}
