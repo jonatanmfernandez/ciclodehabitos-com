@@ -4,7 +4,7 @@ import { getSortedPostsData } from '@/lib/blog';
 import WeeklyEmail from '@/emails/weekly';
 import { SITE_URL } from '@/lib/newsletter';
 
-const FROM = 'Ciclo de Hábitos <newsletter@ciclodehabitos.com>';
+const FROM = 'Joni de Ciclo de Hábitos <newsletter@ciclodehabitos.com>';
 
 // Rotación semanal de reflexiones y hábitos (índice = número de semana).
 const REFLECTIONS = [

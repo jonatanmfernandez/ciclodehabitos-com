@@ -1,6 +1,6 @@
-import { Heading, Text } from "@react-email/components";
+import { Text } from "@react-email/components";
 import * as React from "react";
-import { EmailLayout, heading, text } from "./components";
+import { PersonalEmailLayout, text } from "./components";
 
 interface WelcomeSystemEmailProps {
     unsubscribeUrl: string;
@@ -9,8 +9,7 @@ interface WelcomeSystemEmailProps {
 // Email 4 (Día 6): Un hábito solo no alcanza. Presenta el problema que resuelve NEURAL System.
 export default function WelcomeSystemEmail({ unsubscribeUrl }: WelcomeSystemEmailProps) {
     return (
-        <EmailLayout preview="Lo que pasa cuando tu hábito no tiene dónde vivir" unsubscribeUrl={unsubscribeUrl}>
-            <Heading style={heading}>Un hábito solo no alcanza</Heading>
+        <PersonalEmailLayout preview="Lo que pasa cuando tu hábito no tiene dónde vivir" unsubscribeUrl={unsubscribeUrl}>
             <Text style={text}>
                 Si llegaste hasta acá, ya sabés diseñar un hábito: señal, rutina mínima, recompensa. Eso solo ya te pone adelante de la mayoría.
             </Text>
@@ -34,6 +33,6 @@ export default function WelcomeSystemEmail({ unsubscribeUrl }: WelcomeSystemEmai
                 <br />
                 <strong>Joni</strong> — Ciclo de Hábitos
             </Text>
-        </EmailLayout>
+        </PersonalEmailLayout>
     );
 }

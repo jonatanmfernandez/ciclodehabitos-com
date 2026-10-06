@@ -1,6 +1,6 @@
-import { Heading, Text } from "@react-email/components";
+import { Text } from "@react-email/components";
 import * as React from "react";
-import { EmailLayout, heading, highlight, text } from "./components";
+import { PersonalEmailLayout, note, text } from "./components";
 
 interface WelcomeDesignSheetEmailProps {
     unsubscribeUrl: string;
@@ -9,12 +9,11 @@ interface WelcomeDesignSheetEmailProps {
 // Email 3 (Día 4): La hoja de diseño completa con un ejemplo (leer todos los días).
 export default function WelcomeDesignSheetEmail({ unsubscribeUrl }: WelcomeDesignSheetEmailProps) {
     return (
-        <EmailLayout preview="Te muestro cómo completar la hoja con un ejemplo" unsubscribeUrl={unsubscribeUrl}>
-            <Heading style={heading}>Un hábito diseñado de punta a punta</Heading>
+        <PersonalEmailLayout preview="Te muestro cómo completar la hoja con un ejemplo" unsubscribeUrl={unsubscribeUrl}>
             <Text style={text}>
                 Hoy quiero que veas cómo queda la hoja de diseño de la guía cuando está completa. Tomemos un hábito que mucha gente quiere y casi nadie sostiene: <strong>leer todos los días</strong>.
             </Text>
-            <Text style={highlight}>
+            <Text style={note}>
                 Señal: después de servirme el primer café de la mañana.
                 <br />
                 Rutina: leer.
@@ -40,6 +39,6 @@ export default function WelcomeDesignSheetEmail({ unsubscribeUrl }: WelcomeDesig
                 <br />
                 <strong>Joni</strong> — Ciclo de Hábitos
             </Text>
-        </EmailLayout>
+        </PersonalEmailLayout>
     );
 }

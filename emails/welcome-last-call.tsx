@@ -1,6 +1,6 @@
-import { Heading, Link, Section, Text } from "@react-email/components";
+import { Link, Text } from "@react-email/components";
 import * as React from "react";
-import { EmailLayout, button, buttonContainer, heading, text } from "./components";
+import { PersonalEmailLayout, link, text } from "./components";
 
 interface WelcomeLastCallEmailProps {
     unsubscribeUrl: string;
@@ -12,8 +12,7 @@ interface WelcomeLastCallEmailProps {
 // Solo se envía si hay un código de descuento real (la urgencia tiene que ser verdadera).
 export default function WelcomeLastCallEmail({ unsubscribeUrl, neuralUrl, discountCode }: WelcomeLastCallEmailProps) {
     return (
-        <EmailLayout preview="Hoy termina tu precio especial de NEURAL System" unsubscribeUrl={unsubscribeUrl}>
-            <Heading style={heading}>Último día del precio especial</Heading>
+        <PersonalEmailLayout preview="Hoy termina tu precio especial de NEURAL System" unsubscribeUrl={unsubscribeUrl}>
             <Text style={text}>
                 Un mensaje corto: hoy es el último día para conseguir NEURAL System con el precio especial para quienes descargaron la guía (código <strong>{discountCode}</strong>, ya aplicado en el botón).
             </Text>
@@ -38,11 +37,9 @@ export default function WelcomeLastCallEmail({ unsubscribeUrl, neuralUrl, discou
             <Text style={text}>
                 Si ya aplicaste la hoja de diseño de la guía, NEURAL es el paso natural: el lugar donde ese hábito convive con tus proyectos y metas, en lugar de competir contra ellos.
             </Text>
-            <Section style={buttonContainer}>
-                <Link style={button} href={neuralUrl}>
-                    Conseguir NEURAL System
-                </Link>
-            </Section>
+            <Text style={text}>
+                Si lo querés, está acá: <Link style={link} href={neuralUrl}>NEURAL System</Link>
+            </Text>
             <Text style={text}>
                 Y si no es para vos ahora, no pasa nada. Voy a seguir escribiéndote cada semana con ideas prácticas sobre hábitos y ciencia del comportamiento.
             </Text>
@@ -51,6 +48,6 @@ export default function WelcomeLastCallEmail({ unsubscribeUrl, neuralUrl, discou
                 <br />
                 <strong>Joni</strong> — Ciclo de Hábitos
             </Text>
-        </EmailLayout>
+        </PersonalEmailLayout>
     );
 }

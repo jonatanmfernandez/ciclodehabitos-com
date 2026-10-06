@@ -45,6 +45,62 @@ export function EmailLayout({ preview, unsubscribeUrl, children }: EmailLayoutPr
     );
 }
 
+// Shell "carta personal" para la secuencia de bienvenida: sin franja de marca,
+// sin tarjeta ni botones, para que Gmail lo trate como un correo de persona a
+// persona (pestaña Principal) y no como promoción.
+export function PersonalEmailLayout({ preview, unsubscribeUrl, children }: EmailLayoutProps) {
+    return (
+        <Html lang="es">
+            <Head />
+            <Preview>{preview}</Preview>
+            <Body style={personalMain}>
+                <Container style={personalContainer}>
+                    {children}
+                    <Text style={personalFooter}>
+                        Recibís este correo porque pediste la guía en ciclodehabitos.com.{" "}
+                        <Link href={unsubscribeUrl} style={footerLink}>
+                            Darme de baja
+                        </Link>
+                    </Text>
+                </Container>
+            </Body>
+        </Html>
+    );
+}
+
+const personalMain = {
+    backgroundColor: "#ffffff",
+    fontFamily: 'Arial,Helvetica,sans-serif',
+};
+
+const personalContainer = {
+    margin: "0",
+    padding: "8px 4px",
+    maxWidth: "600px",
+};
+
+const personalFooter = {
+    color: "#9ba3af",
+    fontSize: "12px",
+    lineHeight: "18px",
+    margin: "40px 0 0",
+};
+
+// Bloque destacado discreto (borde gris, sin fondo) para la secuencia personal.
+export const note = {
+    color: "#333640",
+    fontSize: "16px",
+    lineHeight: "26px",
+    margin: "16px 0",
+    borderLeft: "3px solid #d1d5db",
+    padding: "4px 0 4px 14px",
+};
+
+export const link = {
+    color: "#1a56db",
+    textDecoration: "underline",
+};
+
 const main = {
     backgroundColor: "#f5f5f5",
     fontFamily:

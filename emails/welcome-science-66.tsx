@@ -1,6 +1,6 @@
-import { Heading, Text } from "@react-email/components";
+import { Text } from "@react-email/components";
 import * as React from "react";
-import { EmailLayout, heading, text } from "./components";
+import { PersonalEmailLayout, text } from "./components";
 
 interface WelcomeScience66EmailProps {
     unsubscribeUrl: string;
@@ -9,8 +9,7 @@ interface WelcomeScience66EmailProps {
 // Email 2 (Día 2): El mito de los 21 días vs. los 66 días de Lally + versión mínima.
 export default function WelcomeScience66Email({ unsubscribeUrl }: WelcomeScience66EmailProps) {
     return (
-        <EmailLayout preview="Por qué abandonaste en la semana 3 (y no fue tu culpa)" unsubscribeUrl={unsubscribeUrl}>
-            <Heading style={heading}>El número que cambia cómo ves tus hábitos</Heading>
+        <PersonalEmailLayout preview="Por qué abandonaste en la semana 3 (y no fue tu culpa)" unsubscribeUrl={unsubscribeUrl}>
             <Text style={text}>
                 ¿Alguna vez arrancaste un hábito con todo, lo sostuviste dos o tres semanas y después se te cayó?
             </Text>
@@ -40,6 +39,6 @@ export default function WelcomeScience66Email({ unsubscribeUrl }: WelcomeScience
                 <br />
                 <strong>Joni</strong> — Ciclo de Hábitos
             </Text>
-        </EmailLayout>
+        </PersonalEmailLayout>
     );
 }
